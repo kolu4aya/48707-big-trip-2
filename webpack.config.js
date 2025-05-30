@@ -28,9 +28,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlPlugin({
-      template: 'public/index.html',
-    }),
     new CopyPlugin({
       patterns: [
         {
