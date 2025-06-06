@@ -1,13 +1,5 @@
-import AddNewPointView from '../view/add-new-point-view';
-import AddNewPointWithoutDestinationView from '../view/add-new-point-without-destination-view';
-import AddNewPointWithoutOffersView from '../view/add-new-point-without-offers-view';
-import PointEditView from '../view/edit-point-view';
-import FailedLoadDataView from '../view/failed-load-data-view';
 import FilterView from '../view/filter-view';
-import ListEmptyView from '../view/list-empty';
-import LoadingView from '../view/loading-view';
 import SortView from '../view/sort-view';
-import TripEventsView from '../view/trip-events-view';
 import {render} from '../render';
 import ListFilterView from '../view/list-filter-view';
 import FilterButtonView from '../view/filter-button-view';
@@ -20,7 +12,7 @@ export default class TripPresenter {
   listSortComponent = new ListSortView();
   listEventComponent = new ListEventView();
 
-  constructor({tripContainer,listEventsContainer, pageHeaderContainer}) {
+  constructor({tripContainer,listEventsContainer}) {
     this.listEventsContainer = listEventsContainer;
     this.tripContainer = tripContainer;
   }
@@ -28,16 +20,16 @@ export default class TripPresenter {
   init() {
     render(this.listFilterComponent, this.tripContainer);
     
- for (let i = 0; i < 4; i++) {
-    render(new FilterView(), this.listFilterComponent.getElement());
- }
-  render(new FilterButtonView(), this.listFilterComponent.getElement());
-  render(this.listSortComponent, this.listEventsContainer);
-  for (let i = 0; i < 4; i++) {
-    render(new SortView(), this.listSortComponent.getElement());
-  }
+    for (let i = 0; i < 4; i++) {
+        render(new FilterView(), this.listFilterComponent.getElement());
+    }
+    render(new FilterButtonView(), this.listFilterComponent.getElement());
+    render(this.listSortComponent, this.listEventsContainer);
+    for (let i = 0; i < 4; i++) {
+      render(new SortView(), this.listSortComponent.getElement());
+    }
 
-  render(this.listEventComponent, this.listEventsContainer);
+    render(this.listEventComponent, this.listEventsContainer);
 
     for (let i = 0; i < 4; i++) {
       render(new EventView(), this.listEventComponent.getElement());

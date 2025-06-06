@@ -1,6 +1,5 @@
 // import NewTaskButtonView from './view/new-task-button-view.js';
-import ListFilterView from './view/list-filter-view';
-import {render} from './render.js';
+// import {render} from './render.js';
 import TripPresenter from './presenter/trip-presenter';
 
 const tripControlsFilterElement = document.querySelector('.trip-controls__filters');
