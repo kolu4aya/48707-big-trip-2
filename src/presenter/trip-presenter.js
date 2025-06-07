@@ -15,7 +15,6 @@ export default class TripPresenter {
   constructor({ filterContainer, listEventsContainer }) {
     this.filterContainer = filterContainer;
     this.listEventsContainer = listEventsContainer;
- 
   }
 
   init() {
