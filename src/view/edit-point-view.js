@@ -1,15 +1,15 @@
-import { createElement } from "../render.js";
-import { TYPE_OF_ROUTE } from "../const";
-import { getDestination } from "../mock/destination";
-import { getOffers } from "../mock/offers";
-import { humanizeTaskDueDate } from "../utils";
+import { createElement } from '../render.js';
+import { TYPE_OF_ROUTE } from '../const';
+import { getDestination } from '../mock/destination';
+import { getOffers } from '../mock/offers';
+import { humanizeTaskDueDate } from '../utils';
 
 const BLANK_POINT = {
   type: TYPE_OF_ROUTE[5],
-  destination: "",
-  offers: "",
-  timeStart: "",
-  timeEnd: "",
+  destination: '',
+  offers: '',
+  timeStart: '',
+  timeEnd: '',
   favorite: false,
   cost: 0,
 };
@@ -21,26 +21,26 @@ function createEditPointTemplate(data) {
     return items
       .map((item) => {
         const typeLow = item.toLowerCase();
-        const checked = item === type ? " checked" : "";
+        const checked = item === type ? ' checked' : '';
         return `<div class='event__type-item'>
                 <input id='event-type-${typeLow}-1' class='event__type-input  visually-hidden' type='radio' name='event-type' value='${typeLow}' ${checked}>
                 <label class='event__type-label  event__type-label--${typeLow}' for='event-type-${typeLow}-1'>${item}</label>
               </div>`;
       })
-      .join("");
+      .join('');
   }
 
   function destinationsToString(items = []) {
     return items
       .map((item) => `<option value='${item.name}'></option>`)
-      .join("");
+      .join('');
   }
 
   function offersToString(items = []) {
     return items
       .map((item) => {
-        const itemAtr = item.title.split(item.title.split(" ").length - 1);
-        const checked = offers.includes(item) ? " checked" : "";
+        const itemAtr = item.title.split(item.title.split(' ').length - 1);
+        const checked = offers.includes(item) ? ' checked' : '';
         return `<div class='event__offer-selector'>
                 <input class='event__offer-checkbox  visually-hidden' id='event-offer-${itemAtr}-1' type='checkbox' name='event-offer-${itemAtr}' ${checked}>
                 <label class='event__offer-label' for='event-offer-${itemAtr}-1'>
@@ -50,11 +50,11 @@ function createEditPointTemplate(data) {
                 </label>
               </div>`;
       })
-      .join("");
+      .join('');
   }
 
-  const dateStart = humanizeTaskDueDate(timeStart, "DD/MM/YYYY HH:mm");
-  const dateEnd = humanizeTaskDueDate(timeEnd, "DD/MM/YYYY HH:mm");
+  const dateStart = humanizeTaskDueDate(timeStart, 'DD/MM/YYYY HH:mm');
+  const dateEnd = humanizeTaskDueDate(timeEnd, 'DD/MM/YYYY HH:mm');
 
   return `<form class='event event--edit' action='#' method='post'>
                 <header class='event__header'>
@@ -77,9 +77,8 @@ function createEditPointTemplate(data) {
                     <label class='event__label  event__type-output' for='event-destination-1'>
                       ${type}
                     </label>
-                    <input class='event__input  event__input--destination' id='event-destination-1' type='text' name='event-destination' value='${
-                    destination.name
-                     }' list='destination-list-1'>
+                    <input class='event__input  event__input--destination' id='event-destination-1' type='text' name='event-destination' value='
+                    ${destination.name}' list='destination-list-1'>
                     <datalist id='destination-list-1'>
                       ${destinationsToString(getDestination())}
                     </datalist>
@@ -112,15 +111,14 @@ function createEditPointTemplate(data) {
                     <h3 class='event__section-title  event__section-title--offers'>Offers</h3>
 
                     <div class='event__available-offers'>
-                      ${offersToString(getOffers())}
+                    ${offersToString(getOffers())}
                     </div>
                   </section>
 
                   <section class='event__section  event__section--destination'>
                     <h3 class='event__section-title  event__section-title--destination'>Destination</h3>
-                    <p class='event__destination-description'>${
-                    destination.description
-                     }</p>
+                    <p class='event__destination-description'>
+                    ${destination.description}</p>
                   </section>
                 </section>
               </form>
