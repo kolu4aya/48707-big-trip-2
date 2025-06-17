@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 function getRandomArrayElement(items) {
   return items[Math.floor(Math.random() * items.length)];
@@ -9,10 +9,11 @@ function getRandomNumber(items) {
 }
 
 const shuffle = (items) => {
-  let m = items.length, t, i;
+  let m = items.length,
+    t,
+    i;
 
   while (m) {
-
     i = Math.floor(Math.random() * m--);
 
     t = items[m];
@@ -21,7 +22,7 @@ const shuffle = (items) => {
   }
 
   return items;
-}
+};
 
 function getRandomArrayElementNum(items, num) {
   items = shuffle(items);
@@ -30,7 +31,12 @@ function getRandomArrayElementNum(items, num) {
 }
 
 function humanizeTaskDueDate(date, dateFormat) {
-  return date ? dayjs(date).format(dateFormat) : '';
+  return date ? dayjs(date).format(dateFormat) : "";
 }
 
-export {getRandomArrayElement, getRandomNumber, getRandomArrayElementNum, humanizeTaskDueDate};
+export {
+  getRandomArrayElement,
+  getRandomNumber,
+  getRandomArrayElementNum,
+  humanizeTaskDueDate,
+};

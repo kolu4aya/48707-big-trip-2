@@ -1,43 +1,43 @@
-import { getRandomArrayElement } from "../utils.js";
+import { getRandomArrayElement } from '../utils.js';
 
 const mockDestination = [
   {
-    name: "Amsterdam",
+    name: 'Amsterdam',
     description:
-      "Столица Нидерландов с каналами, велосипедами и музеями Ван Гога.",
+      'Столица Нидерландов с каналами, велосипедами и музеями Ван Гога.',
     pictures: [
       {
-        src: "https://example.com/amsterdam-1.jpg",
-        alt: "Каналы Амстердама",
+        src: 'https://example.com/amsterdam-1.jpg',
+        alt: 'Каналы Амстердама',
       },
       {
-        src: "https://example.com/amsterdam-2.jpg",
-        alt: "Район Йордан",
+        src: 'https://example.com/amsterdam-2.jpg',
+        alt: 'Район Йордан',
       },
     ],
   },
   {
-    name: "Chamonix",
+    name: 'Chamonix',
     description:
-      "Горнолыжный курорт у подножия Монблана во Французских Альпах.",
+      'Горнолыжный курорт у подножия Монблана во Французских Альпах.',
     pictures: [
       {
-        src: "https://example.com/chamonix-1.jpg",
-        alt: "Вид на Монблан",
+        src: 'https://example.com/chamonix-1.jpg',
+        alt: 'Вид на Монблан',
       },
       {
-        src: "https://example.com/chamonix-2.jpg",
-        alt: "Канатная дорога",
+        src: 'https://example.com/chamonix-2.jpg',
+        alt: 'Канатная дорога',
       },
     ],
   },
   {
-    name: "Geneva",
-    description: "Швейцарский город на озере Леман с фонтаном Же-До.",
+    name: 'Geneva',
+    description: 'Швейцарский город на озере Леман с фонтаном Же-До.',
     pictures: [
       {
-        src: "https://example.com/geneva-1.jpg",
-        alt: "Фонтан Же-До",
+        src: 'https://example.com/geneva-1.jpg',
+        alt: 'Фонтан Же-До',
       },
     ],
   },

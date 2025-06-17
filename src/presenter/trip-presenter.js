@@ -34,10 +34,10 @@ export default class TripPresenter {
 
     render(this.listEventComponent, this.listEventsContainer);
 
-render(
-        new EditEventView({ point: this.tripPoints[0] }),
-        this.listEventComponent.getElement()
-      );
+    render(
+      new EditEventView({ point: this.tripPoints[0] }),
+      this.listEventComponent.getElement()
+    );
     for (let i = 0; i < this.tripPoints.length; i++) {
       render(
         new EventView({ point: this.tripPoints[i] }),
