@@ -1,12 +1,12 @@
-import FilterView from "../view/filter-view";
-import SortView from "../view/sort-view";
-import { render } from "../render";
-import ListFilterView from "../view/list-filter-view";
-import FilterButtonView from "../view/filter-button-view";
-import ListSortView from "../view/list-sort-view";
-import EventView from "../view/event-view";
-import ListEventView from "../view/list-event-view";
-import EditEventView from "../view/edit-point-view";
+import FilterView from '../view/filter-view';
+import SortView from '../view/sort-view';
+import { render } from '../render';
+import ListFilterView from '../view/list-filter-view';
+import FilterButtonView from '../view/filter-button-view';
+import ListSortView from '../view/list-sort-view';
+import EventView from '../view/event-view';
+import ListEventView from '../view/list-event-view';
+import EditEventView from '../view/edit-point-view';
 
 export default class TripPresenter {
   listFilterComponent = new ListFilterView();

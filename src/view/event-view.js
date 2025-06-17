@@ -1,5 +1,5 @@
-import { createElement } from "../render.js";
-import { humanizeTaskDueDate } from "../utils.js";
+import { createElement } from '../render.js';
+import { humanizeTaskDueDate } from '../utils.js';
 
 function createTaskTemplate(task) {
   const { type, destination, offers, timeStart, timeEnd, favorite, cost } =
@@ -14,25 +14,29 @@ function createTaskTemplate(task) {
           <span class='event__offer-price'>${item.price}</span>
         </li>`
       )
-      .join("");
+      .join('');
   }
-  const date = humanizeTaskDueDate(timeStart, "MMM DD");
-  const date2 = humanizeTaskDueDate(timeEnd, "MMM DD");
-  const dateAtr = humanizeTaskDueDate(timeStart, "YYYY-MM-DD");
-  const dateTimeStart = humanizeTaskDueDate(timeStart, "YYYY-MM-DDTHH:mm");
-  const TimeStart = humanizeTaskDueDate(timeStart, "HH:mm");
-  const dateTimeEnd = humanizeTaskDueDate(timeEnd, "YYYY-MM-DDTHH:mm");
-  const TimeEnd = humanizeTaskDueDate(timeEnd, "HH:mm");
+  const date = humanizeTaskDueDate(timeStart, 'MMM DD');
+  const date2 = humanizeTaskDueDate(timeEnd, 'MMM DD');
+  const dateAtr = humanizeTaskDueDate(timeStart, 'YYYY-MM-DD');
+  const dateTimeStart = humanizeTaskDueDate(timeStart, 'YYYY-MM-DDTHH:mm');
+  const TimeStart = humanizeTaskDueDate(timeStart, 'HH:mm');
+  const dateTimeEnd = humanizeTaskDueDate(timeEnd, 'YYYY-MM-DDTHH:mm');
+  const TimeEnd = humanizeTaskDueDate(timeEnd, 'HH:mm');
   let duration =
     Math.floor(timeEnd.getTime() / 1000) -
     Math.floor(timeStart.getTime() / 1000);
   const d = Math.floor(duration / (60 ** 2 * 24));
   const h = Math.floor((duration - d * 60 ** 2 * 24) / 60 ** 2);
   const m = Math.floor((duration - d * 60 ** 2 * 24 - h * 60 ** 2) / 60);
-  if (d > 0) duration = `${d}D ${h}H ${m}M`;
-  else if (h > 0) duration = `${h}H  ${m}M`;
-  else duration = `${m}M`;
-  const favoriteClassName = favorite ? "event__favorite-btn--active" : "";
+  if (d > 0) {
+    duration = `${d}D ${h}H ${m}M`;
+  } else if (h > 0) {
+    duration = `${h}H  ${m}M`;
+  } else {
+    duration = `${m}M`;
+  }
+  const favoriteClassName = favorite ? 'event__favorite-btn--active' : '';
 
   return `<li class='trip-events__item'><div class='event'>
             <time class='event__date' datetime='${dateAtr}'>${date} - ${date2}</time>
@@ -71,7 +75,7 @@ export default class TaskView {
   constructor({ point }) {
     this.point = point;
   }
-  
+
   getTemplate() {
     return createTaskTemplate(this.point);
   }

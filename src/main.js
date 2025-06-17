@@ -1,5 +1,6 @@
 import TripPresenter from './presenter/trip-presenter';
 import PointsModel from './model/points-model';
+import flatpickr from 'flatpickr';
 
 const filterContainer = document.querySelector('.trip-controls__filters');
 const tripEventsContainer = document.querySelector('.trip-events');
