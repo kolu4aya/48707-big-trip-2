@@ -79,8 +79,9 @@ export default class TaskView extends AbstractView {
     super();
     this.#point = point;
 
-     this.#handleEditClick = onEditClick;
-    this.element.querySelector('.event__rollup-btn')
+    this.#handleEditClick = onEditClick;
+    this.element
+      .querySelector('.event__rollup-btn')
       .addEventListener('click', this.#editClickHandler);
   }
 

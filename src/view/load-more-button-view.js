@@ -5,9 +5,9 @@ function createLoadMoreButtonTemplate() {
 }
 
 export default class LoadMoreButtonView extends AbstractView {
-#handleClick = null;
+  #handleClick = null;
 
-  constructor({onClick}) {
+  constructor({ onClick }) {
     super();
     this.#handleClick = onClick;
     this.element.addEventListener('click', this.#handleClick);

@@ -1,4 +1,4 @@
-import {render, replace, remove} from '../framework/render.js';
+import { render, replace, remove } from '../framework/render.js';
 import ListFilterView from '../view/list-filter-view';
 import FilterButtonView from '../view/filter-button-view';
 import ListSortView from '../view/list-sort-view';
@@ -10,7 +10,6 @@ import LoadMoreButtonView from '../view/load-more-button-view';
 const POINT_COUNT_PER_STEP = 8;
 
 export default class TripPresenter {
-
   #filterContainer = null;
   #listEventsContainer = null;
   #pointsModel = null;
@@ -47,22 +46,27 @@ export default class TripPresenter {
     //   new EditEventView({ point: this.#tripPoints[0] }),
     //   this.#listEventComponent.element
     // );
-    for (let i = 0; i < Math.min(this.#tripPoints.length, POINT_COUNT_PER_STEP); i++) {
-
+    for (
+      let i = 0;
+      i < Math.min(this.#tripPoints.length, POINT_COUNT_PER_STEP);
+      i++
+    ) {
       this.#renderPoint(this.#tripPoints[i]);
-       
     }
 
-  if (this.#tripPoints.length > POINT_COUNT_PER_STEP) {
-     this.#loadMoreButtonComponent = new LoadMoreButtonView({
-        onClick: this.#handleLoadMoreButtonClick
+    if (this.#tripPoints.length > POINT_COUNT_PER_STEP) {
+      this.#loadMoreButtonComponent = new LoadMoreButtonView({
+        onClick: this.#handleLoadMoreButtonClick,
       });
-  }
+    }
     render(this.#loadMoreButtonComponent, this.#listEventComponent.element);
-      }
+  }
   #handleLoadMoreButtonClick = () => {
     this.#listEventComponent
-      .slice(this.#renderedPointCount, this.    #renderedPointCount + POINT_COUNT_PER_STEP)
+      .slice(
+        this.#renderedPointCount,
+        this.#renderedPointCount + POINT_COUNT_PER_STEP
+      )
       .forEach((task) => this.#renderPoint(task));
     this.#renderedPointCount += POINT_COUNT_PER_STEP;
     if (this.#renderedPointCount >= this.#listEventComponent.length) {
@@ -83,7 +87,7 @@ export default class TripPresenter {
       onEditClick: () => {
         replaceCardToForm();
         document.addEventListener('keydown', escKeyDownHandler);
-      }
+      },
     });
     const pointEditComponent = new EditEventView({
       point,
