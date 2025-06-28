@@ -16,7 +16,7 @@ export default class LoadMoreButtonView extends AbstractView {
   get template() {
     return createLoadMoreButtonTemplate();
   }
-  
+
   #clickHandler = (evt) => {
     evt.preventDefault();
     this.#handleClick();

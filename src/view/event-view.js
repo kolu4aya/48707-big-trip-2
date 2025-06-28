@@ -88,7 +88,7 @@ export default class TaskView extends AbstractView {
   get template() {
     return createTaskTemplate(this.#point);
   }
-  
+
   #editClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleEditClick();
