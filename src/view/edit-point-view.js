@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { TYPE_OF_ROUTE } from '../const';
 import { getDestination } from '../mock/destination';
 import { getOffers } from '../mock/offers';
@@ -125,24 +125,25 @@ function createEditPointTemplate(data) {
               `;
 }
 
-export default class EditPointView {
-  constructor({ point = BLANK_POINT }) {
-    this.point = point;
+export default class EditPointView extends AbstractView {
+  #point = null;
+  #handleFormSubmit = null;
+  constructor({ point = BLANK_POINT, onFormSubmit }) {
+    super();
+    this.#point = point;
+    this.#handleFormSubmit = onFormSubmit;
+    this.element.addEventListener('submit', this.#formSubmitHandler);
+    this.element
+      .querySelector('.event--edit .event__rollup-btn')
+      .addEventListener('click', this.#formSubmitHandler);
   }
 
-  getTemplate() {
-    return createEditPointTemplate(this.point);
+  get template() {
+    return createEditPointTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
 }

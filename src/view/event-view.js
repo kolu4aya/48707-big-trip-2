@@ -1,9 +1,9 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { humanizeTaskDueDate } from '../utils.js';
 
-function createTaskTemplate(task) {
+function createTaskTemplate(point) {
   const { type, destination, offers, timeStart, timeEnd, favorite, cost } =
-    task;
+    point;
 
   function offersToString(items) {
     return items
@@ -71,24 +71,26 @@ function createTaskTemplate(task) {
           </div></li>`;
 }
 
-export default class TaskView {
-  constructor({ point }) {
-    this.point = point;
+export default class TaskView extends AbstractView {
+  #point = null;
+  #handleEditClick = null;
+
+  constructor({ point, onEditClick }) {
+    super();
+    this.#point = point;
+
+    this.#handleEditClick = onEditClick;
+    this.element
+      .querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editClickHandler);
   }
 
-  getTemplate() {
-    return createTaskTemplate(this.point);
+  get template() {
+    return createTaskTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }
