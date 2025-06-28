@@ -61,6 +61,7 @@ export default class TripPresenter {
     }
     render(this.#loadMoreButtonComponent, this.#listEventComponent.element);
   }
+  
   #handleLoadMoreButtonClick = () => {
     this.#listEventComponent
       .slice(
