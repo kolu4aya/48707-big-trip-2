@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createAddNewPointWithoutDestinationTemplate() {
   return `<form class="event event--edit" action="#" method="post">
@@ -148,20 +148,9 @@ function createAddNewPointWithoutDestinationTemplate() {
               </form>`;
 }
 
-export default class AddNewPointWithoutDestinationView {
-  getTemplate() {
+export default class AddNewPointWithoutDestinationView  extends AbstractView{
+  get template() {
     return createAddNewPointWithoutDestinationTemplate();
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
 }

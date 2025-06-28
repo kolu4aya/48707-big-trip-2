@@ -1,23 +1,11 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createFilterButtonTemplate() {
   return '<button class="visually-hidden" type="submit">Accept filter</button>';
 }
 
-export default class FilterButtonView {
-  getTemplate() {
+export default class FilterButtonView extends AbstractView {
+  get template() {
     return createFilterButtonTemplate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
   }
 }
