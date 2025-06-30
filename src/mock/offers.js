@@ -1,4 +1,8 @@
-import { getRandomArrayElement, getRandomArrayElementNum, getRandomNumber} from '../utils.js';
+import {
+  getRandomArrayElement,
+  getRandomArrayElementNum,
+  getRandomNumber,
+} from '../utils/common';
 import { TYPE_OF_ROUTE } from '../const.js';
 
 const mockOffers = [
@@ -33,7 +37,7 @@ function getRandomOffers() {
   return getRandomArrayElementNum(mockOffers, getRandomNumber(mockOffers));
 }
 
-function getOffers () {
+function getOffers() {
   return mockOffers;
 }
 export { getRandomOffers, getOffers };

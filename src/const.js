@@ -10,4 +10,11 @@ const TYPE_OF_ROUTE = [
   'Restaurant',
 ];
 
-export { TYPE_OF_ROUTE };
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past',
+};
+
+export { TYPE_OF_ROUTE, FilterType };

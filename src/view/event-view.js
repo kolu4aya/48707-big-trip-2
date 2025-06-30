@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { humanizeTaskDueDate } from '../utils.js';
+import { humanizeTaskDueDate } from '../utils/point';
 
 function createTaskTemplate(point) {
   const { type, destination, offers, timeStart, timeEnd, favorite, cost } =
@@ -17,7 +17,6 @@ function createTaskTemplate(point) {
       .join('');
   }
   const date = humanizeTaskDueDate(timeStart, 'MMM DD');
-  const date2 = humanizeTaskDueDate(timeEnd, 'MMM DD');
   const dateAtr = humanizeTaskDueDate(timeStart, 'YYYY-MM-DD');
   const dateTimeStart = humanizeTaskDueDate(timeStart, 'YYYY-MM-DDTHH:mm');
   const TimeStart = humanizeTaskDueDate(timeStart, 'HH:mm');
@@ -39,7 +38,7 @@ function createTaskTemplate(point) {
   const favoriteClassName = favorite ? 'event__favorite-btn--active' : '';
 
   return `<li class='trip-events__item'><div class='event'>
-            <time class='event__date' datetime='${dateAtr}'>${date} - ${date2}</time>
+            <time class='event__date' datetime='${dateAtr}'>${date}</time>
             <div class='event__type'>
               <img class='event__type-icon' width='42' height='42' src='img/icons/taxi.png' alt='Event type icon'>
             </div>

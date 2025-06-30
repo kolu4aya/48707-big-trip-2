@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 function getRandomArrayElement(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
@@ -30,13 +28,4 @@ function getRandomArrayElementNum(items, num) {
   return items;
 }
 
-function humanizeTaskDueDate(date, dateFormat) {
-  return date ? dayjs(date).format(dateFormat) : '';
-}
-
-export {
-  getRandomArrayElement,
-  getRandomNumber,
-  getRandomArrayElementNum,
-  humanizeTaskDueDate,
-};
+export { getRandomNumber, getRandomArrayElementNum, getRandomArrayElement };
