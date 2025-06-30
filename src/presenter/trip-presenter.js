@@ -1,5 +1,4 @@
 import { render, replace, remove } from '../framework/render.js';
-import FilterButtonView from '../view/filter-button-view';
 import ListSortView from '../view/list-sort-view';
 import EventView from '../view/event-view';
 import ListEventView from '../view/list-event-view';
@@ -10,11 +9,9 @@ import ListEmptyView from '../view/list-empty.js';
 const POINT_COUNT_PER_STEP = 8;
 
 export default class TripPresenter {
-  // #filterContainer = null;
   #listEventsContainer = null;
   #pointsModel = null;
 
-  // #listFilterComponent = new ListFilterView();
   #listSortComponent = new ListSortView();
   #listEventComponent = new ListEventView();
   #loadMoreButtonComponent = null;
@@ -23,7 +20,6 @@ export default class TripPresenter {
   #renderedPointCount = POINT_COUNT_PER_STEP;
 
   constructor({ listEventsContainer, pointsModel }) {
-    // this.#filterContainer = filterContainer;
     this.#listEventsContainer = listEventsContainer;
     this.#pointsModel = pointsModel;
   }
@@ -82,7 +78,6 @@ export default class TripPresenter {
   }
 
   #renderTrip() {
-    // render(new FilterButtonView(), this.#listFilterComponent.element);
     render(this.#listSortComponent, this.#listEventsContainer);
     for (let i = 0; i < 4; i++) {
       render(new ListSortView(), this.#listSortComponent.element);

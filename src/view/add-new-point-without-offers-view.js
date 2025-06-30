@@ -117,4 +117,4 @@ export default class AddNewPointWithoutOffersView extends AbstractView {
   get template() {
     return createAddNewPointWithoutOffersTemplate();
   }
-}А
+}
