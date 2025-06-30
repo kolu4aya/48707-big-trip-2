@@ -30,13 +30,4 @@ function getRandomArrayElementNum(items, num) {
   return items;
 }
 
-function humanizeTaskDueDate(date, dateFormat) {
-  return date ? dayjs(date).format(dateFormat) : '';
-}
-
-export {
-  getRandomArrayElement,
-  getRandomNumber,
-  getRandomArrayElementNum,
-  humanizeTaskDueDate,
-};
+export { getRandomNumber, getRandomArrayElementNum, getRandomArrayElement };

@@ -2,7 +2,7 @@ import AbstractView from '../framework/view/abstract-view.js';
 import { TYPE_OF_ROUTE } from '../const';
 import { getDestination } from '../mock/destination';
 import { getOffers } from '../mock/offers';
-import { humanizeTaskDueDate } from '../utils';
+import { humanizeTaskDueDate } from '../utils/point';
 
 const BLANK_POINT = {
   type: TYPE_OF_ROUTE[5],

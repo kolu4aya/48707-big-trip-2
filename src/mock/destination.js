@@ -1,4 +1,4 @@
-import { getRandomArrayElement } from '../utils.js';
+import { getRandomArrayElement } from '../utils/common';
 
 const mockDestination = [
   {
@@ -51,4 +51,4 @@ function getDestination() {
   return mockDestination;
 }
 
-export { getRandomDestination, getDestination};
+export { getRandomDestination, getDestination };
