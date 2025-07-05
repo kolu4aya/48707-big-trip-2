@@ -1,22 +1,24 @@
-import { render, replace, remove } from '../framework/render.js';
+import { render, remove } from '../framework/render.js';
 import ListSortView from '../view/list-sort-view';
-import EventView from '../view/event-view';
 import ListEventView from '../view/list-event-view';
-import EditEventView from '../view/edit-point-view';
 import LoadMoreButtonView from '../view/load-more-button-view';
 import ListEmptyView from '../view/list-empty.js';
+import PointPresenter from './point-presenter.js';
+import { updateItem } from '../utils/common.js';
 
 const POINT_COUNT_PER_STEP = 8;
 
 export default class TripPresenter {
   #listEventsContainer = null;
   #pointsModel = null;
+  #tripPoints = null;
+  #pointPresenters = new Map();
 
   #listSortComponent = new ListSortView();
   #listEventComponent = new ListEventView();
   #loadMoreButtonComponent = null;
+  #listEmptyComponent = new ListEmptyView();
 
-  #tripPoints = [];
   #renderedPointCount = POINT_COUNT_PER_STEP;
 
   constructor({ listEventsContainer, pointsModel }) {
@@ -31,74 +33,81 @@ export default class TripPresenter {
   }
 
   #handleLoadMoreButtonClick = () => {
-    this.#tripPoints
-      .slice(
-        this.#renderedPointCount,
-        this.#renderedPointCount + POINT_COUNT_PER_STEP
-      )
-      .forEach((task) => this.#renderPoint(task));
+    this.#renderPoints(
+      this.#renderedPointCount,
+      this.#renderedPointCount + POINT_COUNT_PER_STEP
+    );
+
     this.#renderedPointCount += POINT_COUNT_PER_STEP;
     if (this.#renderedPointCount >= this.#tripPoints.length) {
       remove(this.#loadMoreButtonComponent);
     }
   };
 
+  #handleTaskChange = (updatedTask) => {
+    this.#tripPoints = updateItem(this.#tripPoints, updatedTask);
+    this.#pointPresenters.get(updatedTask.id).init(updatedTask);
+  };
+
+  #handleModeChange = () => {
+    this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  };
+
   #renderPoint(point) {
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        replaceFormToCard();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
-    const pointComponent = new EventView({
-      point,
-      onEditClick: () => {
-        replaceCardToForm();
-        document.addEventListener('keydown', escKeyDownHandler);
-      },
+    const pointPresenter = new PointPresenter({
+      listEventsContainer: this.#listEventComponent.element,
+      onDataChange: this.#handleTaskChange,
+      onModeChange: this.#handleModeChange,
     });
-    const pointEditComponent = new EditEventView({
-      point,
-      onFormSubmit: () => {
-        replaceFormToCard();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      },
+    pointPresenter.init(point);
+    this.#pointPresenters.set(point.id, pointPresenter);
+  }
+
+  #renderSort() {
+    render(this.#listSortComponent, this.#listEventsContainer);
+  }
+
+  #renderPoints(from, to) {
+    this.#tripPoints.slice(from, to).forEach((task) => this.#renderPoint(task));
+  }
+
+  #renderNoPoints() {
+    render(this.#listEmptyComponent, this.#listEventComponent.element);
+  }
+
+  #renderLoadMoreButton() {
+    this.#loadMoreButtonComponent = new LoadMoreButtonView({
+      onClick: this.#handleLoadMoreButtonClick,
     });
+    render(this.#loadMoreButtonComponent, this.#listEventsContainer);
+  }
 
-    function replaceCardToForm() {
-      replace(pointEditComponent, pointComponent);
+  #clearTaskList() {
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointPresenters.clear();
+    this.#renderedPointCount = POINT_COUNT_PER_STEP;
+    remove(this.#loadMoreButtonComponent);
+  }
+
+  #renderPointsList() {
+    render(this.#listEventComponent, this.#listEventsContainer);
+    this.#renderPoints(
+      0,
+      Math.min(this.#tripPoints.length, POINT_COUNT_PER_STEP)
+    );
+
+    if (this.#tripPoints.length > POINT_COUNT_PER_STEP) {
+      this.#renderLoadMoreButton();
     }
-
-    function replaceFormToCard() {
-      replace(pointComponent, pointEditComponent);
-    }
-
-    render(pointComponent, this.#listEventComponent.element);
   }
 
   #renderTrip() {
-    render(this.#listSortComponent, this.#listEventsContainer);
-    for (let i = 0; i < 4; i++) {
-      render(new ListSortView(), this.#listSortComponent.element);
-    }
-
+    this.#renderSort();
     render(this.#listEventComponent, this.#listEventsContainer);
 
     if (!this.#tripPoints.length) {
-      render(new ListEmptyView(), this.#listEventComponent.element);
+      this.#renderNoPoints();
     }
-
-    const min = Math.min(this.#tripPoints.length, POINT_COUNT_PER_STEP);
-    for (let i = 0; i < min; i++) {
-      this.#renderPoint(this.#tripPoints[i]);
-    }
-
-    if (this.#tripPoints.length > POINT_COUNT_PER_STEP) {
-      this.#loadMoreButtonComponent = new LoadMoreButtonView({
-        onClick: this.#handleLoadMoreButtonClick,
-      });
-      render(this.#loadMoreButtonComponent, this.#listEventsContainer);
-    }
+    this.#renderPointsList();
   }
 }
