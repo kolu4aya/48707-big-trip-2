@@ -1,4 +1,4 @@
-import { render, replace, remove } from '../framework/render.js';
+import { render, remove } from '../framework/render.js';
 import ListSortView from '../view/list-sort-view';
 import ListEventView from '../view/list-event-view';
 import LoadMoreButtonView from '../view/load-more-button-view';
@@ -68,7 +68,7 @@ export default class TripPresenter {
   }
 
   #renderPoints(from, to) {
-    this.#tripPoints.slice(from.to).forEach((task) => this.#renderPoint(task));
+    this.#tripPoints.slice(from, to).forEach((task) => this.#renderPoint(task));
   }
 
   #renderNoPoints() {

@@ -1,9 +1,9 @@
-import { getRandomArrayElement } from "../utils/common";
-import { TYPE_OF_ROUTE } from "../const";
-import { getRandomDestination } from "./destination";
-import { getRandomOffers } from "./offers";
-import { generateRandomDayjsDate } from "../utils/point";
-import { nanoid } from "nanoid";
+import { getRandomArrayElement } from '../utils/common';
+import { TYPE_OF_ROUTE } from '../const';
+import { getRandomDestination } from './destination';
+import { getRandomOffers } from './offers';
+import { generateRandomDayjsDate } from '../utils/point';
+import { nanoid } from 'nanoid';
 
 const mockPoints = [
   {

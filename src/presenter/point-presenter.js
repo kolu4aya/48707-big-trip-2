@@ -23,6 +23,7 @@ export default class PointPresenter {
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
   }
+
   init(point) {
     this.#point = point;
 
@@ -93,8 +94,8 @@ export default class PointPresenter {
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
-      replaceFormToCard();
-      document.removeEventListener('keydown', escKeyDownHandler);
+      this.#replaceFormToCard();
+      document.removeEventListener('keydown', this.#escKeyDownHandler);
     }
   };
 
