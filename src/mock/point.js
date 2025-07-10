@@ -22,7 +22,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 15,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
@@ -31,7 +31,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 1000,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
@@ -40,7 +40,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 0,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
@@ -49,7 +49,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 5,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
@@ -58,7 +58,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 125,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
@@ -67,7 +67,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 50,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
@@ -76,7 +76,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 33,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
@@ -85,7 +85,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 45,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
@@ -94,7 +94,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 782,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
@@ -103,7 +103,7 @@ const mockPoints = [
     timeStart: generateRandomDayjsDate().dateFrom,
     timeEnd: generateRandomDayjsDate().dateTo,
     favorite: true,
-    cost: 20,
+    cost: 64,
   },
 ];
 
