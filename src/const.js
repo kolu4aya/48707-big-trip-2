@@ -1,4 +1,4 @@
-const TYPE_OF_ROUTE = [
+export const TYPE_OF_ROUTE = [
   'Taxi',
   'Bus',
   'Train',
@@ -9,12 +9,17 @@ const TYPE_OF_ROUTE = [
   'Sightseeing',
   'Restaurant',
 ];
-
-const FilterType = {
+export const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
   PRESENT: 'present',
   PAST: 'past',
 };
 
-export { TYPE_OF_ROUTE, FilterType };
+export const SortType = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers',
+};

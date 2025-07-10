@@ -5,6 +5,8 @@ import LoadMoreButtonView from '../view/load-more-button-view';
 import ListEmptyView from '../view/list-empty.js';
 import PointPresenter from './point-presenter.js';
 import { updateItem } from '../utils/common.js';
+import { SortType } from '../const.js';
+import { sortPointPrice, sortPointDay, sortPointTime } from '../utils/point.js';
 
 const POINT_COUNT_PER_STEP = 8;
 
@@ -13,11 +15,13 @@ export default class TripPresenter {
   #pointsModel = null;
   #tripPoints = null;
   #pointPresenters = new Map();
+  #currentSortType = SortType.DAY;
+  #sourseTripPoints = [];
 
-  #listSortComponent = new ListSortView();
   #listEventComponent = new ListEventView();
   #loadMoreButtonComponent = null;
   #listEmptyComponent = new ListEmptyView();
+  #listSortComponent = null;
 
   #renderedPointCount = POINT_COUNT_PER_STEP;
 
@@ -28,6 +32,9 @@ export default class TripPresenter {
 
   init() {
     this.#tripPoints = [...this.#pointsModel.points];
+    this.#tripPoints.sort(sortPointDay);
+
+    this.#sourseTripPoints = [...this.#pointsModel.points];
 
     this.#renderTrip();
   }
@@ -46,6 +53,7 @@ export default class TripPresenter {
 
   #handleTaskChange = (updatedTask) => {
     this.#tripPoints = updateItem(this.#tripPoints, updatedTask);
+    this.#sourseTripPoints = updateItem(this.#sourseTripPoints);
     this.#pointPresenters.get(updatedTask.id).init(updatedTask);
   };
 
@@ -63,7 +71,42 @@ export default class TripPresenter {
     this.#pointPresenters.set(point.id, pointPresenter);
   }
 
+  #sortTasks(sortType) {
+    console.log(SortType.TIME, sortType);
+    switch (sortType) {
+      case SortType.PRICE:
+        this.#tripPoints.sort(sortPointPrice);
+        break;
+      case SortType.TIME:
+        this.#tripPoints.sort(sortPointTime);
+        break;
+      case SortType.DAY:
+        this.#tripPoints.sort(sortPointDay);
+        break;
+      default:
+        this.#tripPoints = [...this.#sourseTripPoints];
+        break;
+    }
+    console.log(this.#tripPoints);
+
+    this.#currentSortType = SortType;
+  }
+
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+
+    this.#sortTasks(sortType);
+
+    this.#clearTaskList();
+    this.#renderPointsList();
+  };
+
   #renderSort() {
+    this.#listSortComponent = new ListSortView({
+      onSortTypeChange: this.#handleSortTypeChange,
+    });
     render(this.#listSortComponent, this.#listEventsContainer);
   }
 
