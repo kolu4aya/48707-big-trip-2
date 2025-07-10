@@ -32,7 +32,7 @@ export default class ListSortView extends AbstractView {
   }
 
   #onSortTypeChangeHandler = (evt) => {
-    if (evt.target.tagName != 'INPUT') {
+    if (evt.target.tagName !== 'INPUT') {
       return;
     }
 

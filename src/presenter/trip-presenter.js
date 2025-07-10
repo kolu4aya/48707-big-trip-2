@@ -72,7 +72,7 @@ export default class TripPresenter {
   }
 
   #sortTasks(sortType) {
-    console.log(SortType.TIME, sortType);
+
     switch (sortType) {
       case SortType.PRICE:
         this.#tripPoints.sort(sortPointPrice);
@@ -87,7 +87,6 @@ export default class TripPresenter {
         this.#tripPoints = [...this.#sourseTripPoints];
         break;
     }
-    console.log(this.#tripPoints);
 
     this.#currentSortType = SortType;
   }
