@@ -1,12 +1,12 @@
-import { render, remove } from '../framework/render.js';
-import ListSortView from '../view/list-sort-view';
-import ListEventView from '../view/list-event-view';
-import LoadMoreButtonView from '../view/load-more-button-view';
-import ListEmptyView from '../view/list-empty.js';
-import PointPresenter from './point-presenter.js';
-import { updateItem } from '../utils/common.js';
-import { SortType } from '../const.js';
-import { sortPointPrice, sortPointDay, sortPointTime } from '../utils/point.js';
+import { render, remove } from "../framework/render.js";
+import ListSortView from "../view/list-sort-view";
+import ListEventView from "../view/list-event-view";
+import LoadMoreButtonView from "../view/load-more-button-view";
+import ListEmptyView from "../view/list-empty.js";
+import PointPresenter from "./point-presenter.js";
+import { updateItem } from "../utils/common.js";
+import { SortType } from "../const.js";
+import { sortPointPrice, sortPointDay, sortPointTime } from "../utils/point.js";
 
 const POINT_COUNT_PER_STEP = 8;
 
@@ -53,7 +53,7 @@ export default class TripPresenter {
 
   #handlePointChange = (updatedPoint) => {
     this.#tripPoints = updateItem(this.#tripPoints, updatedPoint);
-    this.#sourseTripPoints = updateItem(this.#sourseTripPoints);
+    this.#sourseTripPoints = updateItem(this.#sourseTripPoints, updatedPoint);
     this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
   };
 
@@ -72,7 +72,6 @@ export default class TripPresenter {
   }
 
   #sortPoints(sortType) {
-
     switch (sortType) {
       case SortType.PRICE:
         this.#tripPoints.sort(sortPointPrice);
