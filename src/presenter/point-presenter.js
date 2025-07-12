@@ -39,6 +39,7 @@ export default class PointPresenter {
     this.#pointEditComponent = new EditEventView({
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
+
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
@@ -86,8 +87,8 @@ export default class PointPresenter {
     this.#replaceCardToForm();
   };
 
-  #handleFormSubmit = () => {
-    this.#handleDataChange(this.#point);
+  #handleFormSubmit = (point) => {
+    this.#handleDataChange(point);
     this.#replaceFormToCard();
   };
 
