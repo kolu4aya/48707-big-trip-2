@@ -1,10 +1,10 @@
-import { render, replace, remove } from "../framework/render.js";
-import EventView from "../view/event-view";
-import EditEventView from "../view/edit-point-view";
+import { render, replace, remove } from '../framework/render.js';
+import EventView from '../view/event-view';
+import EditEventView from '../view/edit-point-view';
 
 const Mode = {
-  DEFAULT: "DEFAULT",
-  EDITING: "EDITING",
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
 };
 
 export default class PointPresenter {
@@ -39,7 +39,7 @@ export default class PointPresenter {
     this.#pointEditComponent = new EditEventView({
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
-      onTypeChange: this.#handleTypeChange,
+
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
@@ -72,14 +72,14 @@ export default class PointPresenter {
 
   #replaceCardToForm() {
     replace(this.#pointEditComponent, this.#pointComponent);
-    document.addEventListener("keydown", this.#escKeyDownHandler);
+    document.addEventListener('keydown', this.#escKeyDownHandler);
     this.#handleModeChange();
     this.#mode = Mode.EDITING;
   }
 
   #replaceFormToCard() {
     replace(this.#pointComponent, this.#pointEditComponent);
-    document.removeEventListener("keydown", this.#escKeyDownHandler);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
     this.#mode = Mode.DEFAULT;
   }
 
@@ -93,15 +93,11 @@ export default class PointPresenter {
   };
 
   #escKeyDownHandler = (evt) => {
-    if (evt.key === "Escape") {
+    if (evt.key === 'Escape') {
       evt.preventDefault();
       this.#replaceFormToCard();
-      document.removeEventListener("keydown", this.#escKeyDownHandler);
+      document.removeEventListener('keydown', this.#escKeyDownHandler);
     }
-  };
-
-  #handleTypeChange = (evt) => {
-    console.log(this);
   };
 
   #handleFavoriteClick = () => {

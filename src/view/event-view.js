@@ -1,5 +1,5 @@
-import AbstractView from "../framework/view/abstract-view.js";
-import { humanizeTaskDueDate } from "../utils/point";
+import AbstractView from '../framework/view/abstract-view.js';
+import { humanizeTaskDueDate } from '../utils/point';
 
 function createTaskTemplate(point) {
   const { type, destination, offers, timeStart, timeEnd, favorite, cost } =
@@ -14,14 +14,14 @@ function createTaskTemplate(point) {
           <span class='event__offer-price'>${item.price}</span>
         </li>`
       )
-      .join("");
+      .join('');
   }
-  const date = humanizeTaskDueDate(timeStart, "MMM DD");
-  const dateAtr = humanizeTaskDueDate(timeStart, "YYYY-MM-DD");
-  const dateTimeStart = humanizeTaskDueDate(timeStart, "YYYY-MM-DDTHH:mm");
-  const TimeStart = humanizeTaskDueDate(timeStart, "HH:mm");
-  const dateTimeEnd = humanizeTaskDueDate(timeEnd, "YYYY-MM-DDTHH:mm");
-  const TimeEnd = humanizeTaskDueDate(timeEnd, "HH:mm");
+  const date = humanizeTaskDueDate(timeStart, 'MMM DD');
+  const dateAtr = humanizeTaskDueDate(timeStart, 'YYYY-MM-DD');
+  const dateTimeStart = humanizeTaskDueDate(timeStart, 'YYYY-MM-DDTHH:mm');
+  const TimeStart = humanizeTaskDueDate(timeStart, 'HH:mm');
+  const dateTimeEnd = humanizeTaskDueDate(timeEnd, 'YYYY-MM-DDTHH:mm');
+  const TimeEnd = humanizeTaskDueDate(timeEnd, 'HH:mm');
   let duration =
     Math.floor(timeEnd.getTime() / 1000) -
     Math.floor(timeStart.getTime() / 1000);
@@ -35,7 +35,7 @@ function createTaskTemplate(point) {
   } else {
     duration = `${m}M`;
   }
-  const favoriteClassName = favorite ? "event__favorite-btn--active" : "";
+  const favoriteClassName = favorite ? 'event__favorite-btn--active' : '';
 
   return `<li class='trip-events__item'><div class='event'>
             <time class='event__date' datetime='${dateAtr}'>${date}</time>
@@ -83,11 +83,11 @@ export default class TaskView extends AbstractView {
     this.#handleFavoriteClick = onFavoriteClick;
 
     this.element
-      .querySelector(".event__rollup-btn")
-      .addEventListener("click", this.#editClickHandler);
+      .querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editClickHandler);
     this.element
-      .querySelector(".event__favorite-btn")
-      .addEventListener("click", this.#favoriteClickHandler);
+      .querySelector('.event__favorite-btn')
+      .addEventListener('click', this.#favoriteClickHandler);
   }
 
   get template() {

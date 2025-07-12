@@ -2,58 +2,58 @@ import {
   getRandomArrayElement,
   getRandomArrayElementNum,
   getRandomNumber,
-} from "../utils/common";
-import { TYPE_OF_ROUTE } from "../const.js";
+} from '../utils/common';
+import { TYPE_OF_ROUTE } from '../const.js';
 
 const mockOffers = [
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Order Uber",
+    title: 'Order Uber',
     price: 20,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Add luggage",
+    title: 'Add luggage',
     price: 50,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Switch to comfort",
+    title: 'Switch to comfort',
     price: 80,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Rent a car",
+    title: 'Rent a car',
     price: 200,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Add breakfast",
+    title: 'Add breakfast',
     price: 50,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Order Uber",
+    title: 'Order Uber',
     price: 20,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Add luggage",
+    title: 'Add luggage',
     price: 50,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Switch to comfort",
+    title: 'Switch to comfort',
     price: 80,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Rent a car",
+    title: 'Rent a car',
     price: 200,
   },
   {
     type: getRandomArrayElement(TYPE_OF_ROUTE),
-    title: "Add breakfast",
+    title: 'Add breakfast',
     price: 50,
   },
 ];
