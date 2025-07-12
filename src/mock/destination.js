@@ -7,11 +7,11 @@ const mockDestination = [
       'Столица Нидерландов с каналами, велосипедами и музеями Ван Гога.',
     pictures: [
       {
-        src: 'https://example.com/amsterdam-1.jpg',
+        src: '4.jpg',
         alt: 'Каналы Амстердама',
       },
       {
-        src: 'https://example.com/amsterdam-2.jpg',
+        src: '3.jpg',
         alt: 'Район Йордан',
       },
     ],
@@ -22,11 +22,11 @@ const mockDestination = [
       'Горнолыжный курорт у подножия Монблана во Французских Альпах.',
     pictures: [
       {
-        src: 'https://example.com/chamonix-1.jpg',
+        src: '1.jpg',
         alt: 'Вид на Монблан',
       },
       {
-        src: 'https://example.com/chamonix-2.jpg',
+        src: '2.jpg',
         alt: 'Канатная дорога',
       },
     ],
@@ -36,7 +36,7 @@ const mockDestination = [
     description: 'Швейцарский город на озере Леман с фонтаном Же-До.',
     pictures: [
       {
-        src: 'https://example.com/geneva-1.jpg',
+        src: '5.jpg',
         alt: 'Фонтан Же-До',
       },
     ],

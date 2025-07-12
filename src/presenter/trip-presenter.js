@@ -51,10 +51,10 @@ export default class TripPresenter {
     }
   };
 
-  #handleTaskChange = (updatedTask) => {
-    this.#tripPoints = updateItem(this.#tripPoints, updatedTask);
+  #handlePointChange = (updatedPoint) => {
+    this.#tripPoints = updateItem(this.#tripPoints, updatedPoint);
     this.#sourseTripPoints = updateItem(this.#sourseTripPoints);
-    this.#pointPresenters.get(updatedTask.id).init(updatedTask);
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
   };
 
   #handleModeChange = () => {
@@ -64,14 +64,14 @@ export default class TripPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       listEventsContainer: this.#listEventComponent.element,
-      onDataChange: this.#handleTaskChange,
+      onDataChange: this.#handlePointChange,
       onModeChange: this.#handleModeChange,
     });
     pointPresenter.init(point);
     this.#pointPresenters.set(point.id, pointPresenter);
   }
 
-  #sortTasks(sortType) {
+  #sortPoints(sortType) {
 
     switch (sortType) {
       case SortType.PRICE:
@@ -96,9 +96,9 @@ export default class TripPresenter {
       return;
     }
 
-    this.#sortTasks(sortType);
+    this.#sortPoints(sortType);
 
-    this.#clearTaskList();
+    this.#clearPointList();
     this.#renderPointsList();
   };
 
@@ -124,7 +124,7 @@ export default class TripPresenter {
     render(this.#loadMoreButtonComponent, this.#listEventsContainer);
   }
 
-  #clearTaskList() {
+  #clearPointList() {
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
     this.#renderedPointCount = POINT_COUNT_PER_STEP;
