@@ -17,20 +17,20 @@ const BLANK_POINT = {
 const createEditPointTemplate = (data) => {
   const { type, destination, offers, timeStart, timeEnd, cost } = data;
 
- const typesToString = (items = TYPE_OF_ROUTE) => items
-      .map((item) => {
-        const typeLow = item.toLowerCase();
-        const checked = item === type ? ' checked' : '';
-        return `<div class='event__type-item'>
-                <input id='event-type-${typeLow}-1' class='event__type-input  visually-hidden' type='radio' name='event-type' value='${item}' ${checked}>
-                <label class='event__type-label  event__type-label--${typeLow}' for='event-type-${typeLow}-1'>${item}</label>
-              </div>`;
-      })
-      .join('');
+  const typesToString = (items = TYPE_OF_ROUTE) => items
+    .map((item) => {
+      const typeLow = item.toLowerCase();
+      const checked = item === type ? ' checked' : '';
+      return `<div class='event__type-item'>
+              <input id='event-type-${typeLow}-1' class='event__type-input  visually-hidden' type='radio' name='event-type' value='${item}' ${checked}>
+              <label class='event__type-label  event__type-label--${typeLow}' for='event-type-${typeLow}-1'>${item}</label>
+            </div>`;
+    })
+    .join('');
 
   const destinationsToString = (items = []) => items
-      .map((item) => `<option value='${item.name}'></option>`)
-      .join('');
+    .map((item) => `<option value='${item.name}'></option>`)
+    .join('');
 
   const offersToString = (items = [], typeForOffer) => {
     items = items.filter((item) => item.type === typeForOffer);
@@ -52,7 +52,7 @@ const createEditPointTemplate = (data) => {
   };
 
   const photoToString = (destinationForPhoto) => {
-    const pictures = destination.pictures;
+    const pictures = destinationForPhoto.pictures;
     return pictures.map(
       (item) =>
         `<img class='event__photo' src='img/photos/${item.src}' alt='${item.alt}'>`
