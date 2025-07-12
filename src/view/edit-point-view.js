@@ -1,15 +1,15 @@
-import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { TYPE_OF_ROUTE } from '../const';
-import { getDestination } from '../mock/destination';
-import { getOffers } from '../mock/offers';
-import { humanizeTaskDueDate } from '../utils/point';
+import AbstractStatefulView from "../framework/view/abstract-stateful-view.js";
+import { TYPE_OF_ROUTE } from "../const";
+import { getDestination } from "../mock/destination";
+import { getOffers } from "../mock/offers";
+import { humanizeTaskDueDate } from "../utils/point";
 
 const BLANK_POINT = {
   type: TYPE_OF_ROUTE[5],
-  destination: '',
-  offers: '',
-  timeStart: '',
-  timeEnd: '',
+  destination: "",
+  offers: "",
+  timeStart: "",
+  timeEnd: "",
   favorite: false,
   cost: 0,
 };
@@ -17,28 +17,28 @@ const BLANK_POINT = {
 const createEditPointTemplate = (data) => {
   const { type, destination, offers, timeStart, timeEnd, cost } = data;
 
-  const typesToString = (items = TYPE_OF_ROUTE) => items
-    .map((item) => {
-      const typeLow = item.toLowerCase();
-      const checked = item === type ? ' checked' : '';
-      return `<div class='event__type-item'>
+  const typesToString = (items = TYPE_OF_ROUTE) =>
+    items
+      .map((item) => {
+        const typeLow = item.toLowerCase();
+        const checked = item === type ? " checked" : "";
+        return `<div class='event__type-item'>
               <input id='event-type-${typeLow}-1' class='event__type-input  visually-hidden' type='radio' name='event-type' value='${item}' ${checked}>
               <label class='event__type-label  event__type-label--${typeLow}' for='event-type-${typeLow}-1'>${item}</label>
             </div>`;
-    })
-    .join('');
+      })
+      .join("");
 
-  const destinationsToString = (items = []) => items
-    .map((item) => `<option value='${item.name}'></option>`)
-    .join('');
+  const destinationsToString = (items = []) =>
+    items.map((item) => `<option value='${item.name}'></option>`).join("");
 
   const offersToString = (items = [], typeForOffer) => {
     items = items.filter((item) => item.type === typeForOffer);
 
     return items
       .map((item) => {
-        const itemAtr = item.title.split(item.title.split(' ').length - 1);
-        const checked = offers.includes(item) ? ' checked' : '';
+        const itemAtr = item.title.split(item.title.split(" ").length - 1);
+        const checked = offers.includes(item) ? " checked" : "";
         return `<div class='event__offer-selector'>
                 <input class='event__offer-checkbox  visually-hidden' id='event-offer-${itemAtr}-1' type='checkbox' name='event-offer-${itemAtr}' ${checked}>
                 <label class='event__offer-label' for='event-offer-${itemAtr}-1'>
@@ -48,7 +48,7 @@ const createEditPointTemplate = (data) => {
                 </label>
               </div>`;
       })
-      .join('');
+      .join("");
   };
 
   const photoToString = (destinationForPhoto) => {
@@ -59,15 +59,15 @@ const createEditPointTemplate = (data) => {
     );
   };
 
-  const dateStart = humanizeTaskDueDate(timeStart, 'DD/MM/YYYY HH:mm');
-  const dateEnd = humanizeTaskDueDate(timeEnd, 'DD/MM/YYYY HH:mm');
+  const dateStart = humanizeTaskDueDate(timeStart, "DD/MM/YYYY HH:mm");
+  const dateEnd = humanizeTaskDueDate(timeEnd, "DD/MM/YYYY HH:mm");
 
   return `<form class='event event--edit' action='#' method='post'>
                 <header class='event__header'>
                   <div class='event__type-wrapper'>
                     <label class='event__type  event__type-btn' for='event-type-toggle-1'>
                       <span class='visually-hidden'>Choose event type</span>
-                      <img class='event__type-icon' width='17' height='17' src='img/icons/${type}.png' alt='Event type icon'>
+                      <img class='event__type-icon' width='17' height='17' src='img/icons/${type.toLowerCase()}.png' alt='Event type icon'>
                     </label>
                     <input class='event__type-toggle  visually-hidden' id='event-type-toggle-1' type='checkbox'>
 
@@ -153,18 +153,18 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   _restoreHandlers() {
-    this.element.addEventListener('submit', this.#formSubmitHandler);
+    this.element.addEventListener("submit", this.#formSubmitHandler);
     this.element
-      .querySelector('.event--edit .event__rollup-btn')
-      .addEventListener('click', this.#formSubmitHandler);
+      .querySelector(".event--edit .event__rollup-btn")
+      .addEventListener("click", this.#formSubmitHandler);
     this.element
-      .querySelectorAll('.event__type-input')
+      .querySelectorAll(".event__type-input")
       .forEach((item) =>
-        item.addEventListener('change', this.#typeChangeHandler)
+        item.addEventListener("change", this.#typeChangeHandler)
       );
     this.element
-      .querySelector('.event__input--destination')
-      .addEventListener('change', this.#destinationChangeHandler);
+      .querySelector(".event__input--destination")
+      .addEventListener("change", this.#destinationChangeHandler);
   }
 
   #formSubmitHandler = (evt) => {
