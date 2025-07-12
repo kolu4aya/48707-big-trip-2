@@ -62,8 +62,6 @@ const createEditPointTemplate = (data) => {
   const dateStart = humanizeTaskDueDate(timeStart, 'DD/MM/YYYY HH:mm');
   const dateEnd = humanizeTaskDueDate(timeEnd, 'DD/MM/YYYY HH:mm');
 
-  console.log(destination);
-
   return `<form class='event event--edit' action='#' method='post'>
                 <header class='event__header'>
                   <div class='event__type-wrapper'>
@@ -129,7 +127,7 @@ const createEditPointTemplate = (data) => {
 
                     <div class='event__photos-container'>
                       <div class='event__photos-tape'>
-                       ${destination !== undefined ? photoToString(destination): ''}
+                       ${destination !== undefined ? photoToString(destination) : ''}
                       </div>
                     </div>
                   </section>
