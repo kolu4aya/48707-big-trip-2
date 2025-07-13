@@ -3,6 +3,9 @@ import { TYPE_OF_ROUTE } from '../const';
 import { getDestination } from '../mock/destination';
 import { getOffers } from '../mock/offers';
 import { humanizeTaskDueDate } from '../utils/point';
+import flatpickr from 'flatpickr';
+
+import 'flatpickr/dist/flatpickr.min.css';
 
 const BLANK_POINT = {
   type: TYPE_OF_ROUTE[5],
@@ -17,7 +20,7 @@ const BLANK_POINT = {
 const createEditPointTemplate = (data) => {
   const { type, destination, offers, timeStart, timeEnd, cost } = data;
 
-  const typesToString = (items = TYPE_OF_ROUTE) =>
+  const createTypes = (items = TYPE_OF_ROUTE) =>
     items
       .map((item) => {
         const typeLow = item.toLowerCase();
@@ -29,10 +32,10 @@ const createEditPointTemplate = (data) => {
       })
       .join('');
 
-  const destinationsToString = (items = []) =>
+  const createDestinations = (items = []) =>
     items.map((item) => `<option value='${item.name}'></option>`).join('');
 
-  const offersToString = (items = [], typeForOffer) => {
+  const createOffers = (items = [], typeForOffer) => {
     items = items.filter((item) => item.type === typeForOffer);
 
     return items
@@ -51,12 +54,22 @@ const createEditPointTemplate = (data) => {
       .join('');
   };
 
-  const photoToString = (destinationForPhoto) => {
-    const pictures = destinationForPhoto.pictures;
-    return pictures.map(
-      (item) =>
-        `<img class='event__photo' src='img/photos/${item.src}' alt='${item.alt}'>`
-    );
+  const createImages = (destinationForPhoto) => {
+    let str = '';
+    if (
+      destinationForPhoto.pictures !== undefined &&
+      destinationForPhoto.pictures?.length > 0
+    ) {
+      const { pictures = [] } = destinationForPhoto;
+      str = '<div class="event__photos-container"><div class="event__photos-tape">';
+      str += pictures.map(
+        (item) =>
+          `<img class='event__photo' src='img/photos/${item.src}' alt='${item.alt}'>`
+      );
+      str += '</div></div>';
+    }
+
+    return str;
   };
 
   const dateStart = humanizeTaskDueDate(timeStart, 'DD/MM/YYYY HH:mm');
@@ -74,7 +87,7 @@ const createEditPointTemplate = (data) => {
                     <div class='event__type-list'>
                       <fieldset class='event__type-group'>
                         <legend class='visually-hidden'>Event type</legend>
-                        ${typesToString()}
+                        ${createTypes()}
                       </fieldset>
                     </div>
                   </div>
@@ -85,7 +98,7 @@ const createEditPointTemplate = (data) => {
                     </label>
                     <input class='event__input  event__input--destination' id='event-destination-1' autocomplete='off' type='text' name='event-destination' required value='${destination !== undefined ? destination.name : ''}' list='destination-list-1'>
                     <datalist id='destination-list-1'>
-                      ${destinationsToString(getDestination())}
+                      ${createDestinations(getDestination())}
                     </datalist>
                   </div>
 
@@ -116,20 +129,17 @@ const createEditPointTemplate = (data) => {
                     <h3 class='event__section-title  event__section-title--offers'>Offers</h3>
 
                     <div class='event__available-offers'>
-                    ${offersToString(getOffers(), type)}
+                    ${createOffers(getOffers(), type)}
                     </div>
                   </section>
 
                   <section class='event__section  event__section--destination'>
                     <h3 class='event__section-title  event__section-title--destination'>Destination</h3>
                     <p class='event__destination-description'>
-                    ${destination !== undefined ? destination.description : ''}</p>
+                      ${destination !== undefined ? destination.description : ''}
+                    </p>
 
-                    <div class='event__photos-container'>
-                      <div class='event__photos-tape'>
-                       ${destination !== undefined ? photoToString(destination) : ''}
-                      </div>
-                    </div>
+                    ${destination !== undefined ? createImages(destination) : ''}
                   </section>
                 </section>
               </form>`;
@@ -138,12 +148,22 @@ const createEditPointTemplate = (data) => {
 export default class EditPointView extends AbstractStatefulView {
   #point = null;
   #handleFormSubmit = null;
+  #datepicker = null;
 
   constructor({ point = BLANK_POINT, onFormSubmit }) {
     super();
     this._setState(EditPointView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
     this._restoreHandlers();
+  }
+
+  removeElement() {
+    super.removeElement();
+
+    if (this.#datepicker) {
+      this.#datepicker.destroy();
+      this.#datepicker = null;
+    }
   }
 
   get template() {
@@ -163,6 +183,9 @@ export default class EditPointView extends AbstractStatefulView {
     this.element
       .querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
+
+    this.#setStartDatepicker();
+    this.#setEndDatepicker();
   }
 
   #formSubmitHandler = (evt) => {
@@ -187,6 +210,17 @@ export default class EditPointView extends AbstractStatefulView {
     });
   };
 
+  #startDateChangeHendler = ([useData]) =>
+    this.updateElement({
+      timeStart: useData,
+    });
+
+  #endDateChangeHendler = ([useData]) => {
+    this.updateElement({
+      timeEnd: useData,
+    });
+  };
+
   static parsePointToState(point) {
     return { ...point };
   }
@@ -195,5 +229,27 @@ export default class EditPointView extends AbstractStatefulView {
     const point = { ...state };
 
     return point;
+  }
+
+  #setStartDatepicker() {
+    this.#datepicker = flatpickr(
+      this.element.querySelectorAll('#event-start-time-1'),
+      {
+        enableTime: true,
+        dateFormat: 'd/m/Y H:i',
+        onChange: this.#startDateChangeHendler,
+      }
+    );
+  }
+
+  #setEndDatepicker() {
+    this.#datepicker = flatpickr(
+      this.element.querySelector('#event-end-time-1'),
+      {
+        enableTime: true,
+        dateFormat: 'd/m/Y H:i',
+        onChange: this.#endDateChangeHendler,
+      }
+    );
   }
 }
