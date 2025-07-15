@@ -1,5 +1,5 @@
-import AbstractView from '../framework/view/abstract-view.js';
-import { humanizeTaskDueDate } from '../utils/point';
+import AbstractView from '../framework/view/abstract-view';
+import { humanizePointDate } from '../utils/point';
 
 function createTaskTemplate(point) {
   const { type, destination, offers, timeStart, timeEnd, favorite, cost } =
@@ -16,12 +16,12 @@ function createTaskTemplate(point) {
       )
       .join('');
   }
-  const date = humanizeTaskDueDate(timeStart, 'MMM DD');
-  const dateAtr = humanizeTaskDueDate(timeStart, 'YYYY-MM-DD');
-  const dateTimeStart = humanizeTaskDueDate(timeStart, 'YYYY-MM-DDTHH:mm');
-  const TimeStart = humanizeTaskDueDate(timeStart, 'HH:mm');
-  const dateTimeEnd = humanizeTaskDueDate(timeEnd, 'YYYY-MM-DDTHH:mm');
-  const TimeEnd = humanizeTaskDueDate(timeEnd, 'HH:mm');
+  const date = humanizePointDate(timeStart, 'MMM DD');
+  const dateAtr = humanizePointDate(timeStart, 'YYYY-MM-DD');
+  const dateTimeStart = humanizePointDate(timeStart, 'YYYY-MM-DDTHH:mm');
+  const TimeStart = humanizePointDate(timeStart, 'HH:mm');
+  const dateTimeEnd = humanizePointDate(timeEnd, 'YYYY-MM-DDTHH:mm');
+  const TimeEnd = humanizePointDate(timeEnd, 'HH:mm');
   let duration =
     Math.floor(timeEnd.getTime() / 1000) -
     Math.floor(timeStart.getTime() / 1000);
