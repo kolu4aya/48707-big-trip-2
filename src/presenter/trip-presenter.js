@@ -47,7 +47,7 @@ export default class TripPresenter {
         return filteredPoints.sort(sortPointDay);
     }
 
-    return filteredTasks;
+    return filteredPoints;
   }
 
   init() {

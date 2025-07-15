@@ -10,7 +10,7 @@ const NoPointsTextType = {
 };
 
 function createListEmptyTemplate() {
-  const noPointTextValue = NoPointTextType[FilterType];
+  const noPointTextValue = NoPointsTextType[FilterType];
   return `<p class='trip-events__msg'>${noPointTextValue}</p>`;
 }
 
@@ -23,6 +23,6 @@ export default class ListEmptyView extends AbstractView {
   }
 
   get template() {
-    return createNoTaskTemplate(this.#filterType);
+    return createListEmptyTemplate(this.#filterType);
   }
 }
