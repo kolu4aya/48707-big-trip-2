@@ -28,8 +28,4 @@ function getRandomArrayElementNum(items, num) {
   return items;
 }
 
-function updateItem(items, update) {
-  return items.map((item) => item.id === update.id ? update : item);
-}
-
-export { getRandomNumber, getRandomArrayElementNum, getRandomArrayElement, updateItem };
+export { getRandomNumber, getRandomArrayElementNum, getRandomArrayElement };

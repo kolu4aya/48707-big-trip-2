@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-export function humanizeTaskDueDate(date, dateFormat) {
+export function humanizePointDate(date, dateFormat) {
   return date ? dayjs(date).format(dateFormat) : '';
 }
 

@@ -1,8 +1,8 @@
-import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view';
 import { TYPE_OF_ROUTE } from '../const';
 import { getDestination } from '../mock/destination';
 import { getOffers } from '../mock/offers';
-import { humanizeTaskDueDate } from '../utils/point';
+import { humanizePointDate } from '../utils/point';
 import flatpickr from 'flatpickr';
 
 import 'flatpickr/dist/flatpickr.min.css';
@@ -61,7 +61,8 @@ const createEditPointTemplate = (data) => {
       destinationForPhoto.pictures?.length > 0
     ) {
       const { pictures = [] } = destinationForPhoto;
-      str = '<div class="event__photos-container"><div class="event__photos-tape">';
+      str =
+        '<div class="event__photos-container"><div class="event__photos-tape">';
       str += pictures.map(
         (item) =>
           `<img class='event__photo' src='img/photos/${item.src}' alt='${item.alt}'>`
@@ -72,8 +73,8 @@ const createEditPointTemplate = (data) => {
     return str;
   };
 
-  const dateStart = humanizeTaskDueDate(timeStart, 'DD/MM/YYYY HH:mm');
-  const dateEnd = humanizeTaskDueDate(timeEnd, 'DD/MM/YYYY HH:mm');
+  const dateStart = humanizePointDate(timeStart, 'DD/MM/YY HH:mm');
+  const dateEnd = humanizePointDate(timeEnd, 'DD/MM/YY HH:mm');
 
   return `<form class='event event--edit' action='#' method='post'>
                 <header class='event__header'>
@@ -146,14 +147,15 @@ const createEditPointTemplate = (data) => {
 };
 
 export default class EditPointView extends AbstractStatefulView {
-  #point = null;
   #handleFormSubmit = null;
+  #handleDeleteClick = null;
   #datepicker = null;
 
-  constructor({ point = BLANK_POINT, onFormSubmit }) {
+  constructor({ point = BLANK_POINT, onFormSubmit, onDeleteClick }) {
     super();
     this._setState(EditPointView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
+    this.#handleDeleteClick = onDeleteClick;
     this._restoreHandlers();
   }
 
@@ -183,6 +185,9 @@ export default class EditPointView extends AbstractStatefulView {
     this.element
       .querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
+    this.element
+      .querySelector('.event__reset-btn')
+      .addEventListener('click', this.#formDeleteClickHandler);
 
     this.#setStartDatepicker();
     this.#setEndDatepicker();
@@ -221,6 +226,11 @@ export default class EditPointView extends AbstractStatefulView {
     });
   };
 
+  #formDeleteClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(EditPointView.parseStateToPoint(this._state));
+  };
+
   static parsePointToState(point) {
     return { ...point };
   }
@@ -236,7 +246,7 @@ export default class EditPointView extends AbstractStatefulView {
       this.element.querySelectorAll('#event-start-time-1'),
       {
         enableTime: true,
-        dateFormat: 'd/m/Y H:i',
+        dateFormat: 'd/m/y H:i',
         onChange: this.#startDateChangeHendler,
       }
     );
@@ -247,7 +257,7 @@ export default class EditPointView extends AbstractStatefulView {
       this.element.querySelector('#event-end-time-1'),
       {
         enableTime: true,
-        dateFormat: 'd/m/Y H:i',
+        dateFormat: 'd/m/y H:i',
         onChange: this.#endDateChangeHendler,
       }
     );
