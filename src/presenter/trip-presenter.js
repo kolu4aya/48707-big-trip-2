@@ -41,6 +41,7 @@ export default class TripPresenter {
     lowerLimit: TimeLimit.LOWER_LIMIT,
     upperLimit: TimeLimit.UPPER_LIMIT,
   });
+  
   #offers = [];
   #destinations = [];
 

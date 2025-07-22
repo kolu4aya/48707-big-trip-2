@@ -32,7 +32,8 @@ export default class PointPresenter {
     this.#listEventsContainer = listEventsContainer;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
-    (this.#offers = offers), (this.#destinations = destinations);
+    this.#offers = offers;
+    this.#destinations = destinations;
   }
 
   init(point) {

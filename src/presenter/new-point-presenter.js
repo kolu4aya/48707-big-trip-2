@@ -22,7 +22,8 @@ export default class NewPointPresenter {
     this.#listEventsContainer = listEventsContainer;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
-    (this.#offers = offers), (this.#destinations = destinations);
+    this.#offers = offers;
+    this.#destinations = destinations;
   }
 
   init() {

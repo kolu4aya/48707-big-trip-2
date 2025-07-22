@@ -41,7 +41,7 @@ export default class PointModel extends Observable {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
-      throw new Error("Can't update unexisting point");
+      throw new Error(`Can't update unexisting point`);
     }
 
     try {
@@ -55,7 +55,7 @@ export default class PointModel extends Observable {
       ];
       this._notify(updateType, updatedPoint);
     } catch (error) {
-      throw new Error("Can't update point");
+      throw new Error(`Can't update point`);
     }
   }
 
@@ -66,7 +66,7 @@ export default class PointModel extends Observable {
       this.#points = [newPoint, ...this.#points];
       this._notify(updateType, newPoint);
     } catch (error) {
-      throw new Error("Can't add point");
+      throw new Error(`Can't add point`);
     }
   }
 
@@ -74,7 +74,7 @@ export default class PointModel extends Observable {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
-      throw new Error("Can't delete unexisting point");
+      throw new Error(`Can't delete unexisting point`);
     }
 
     try {
@@ -85,7 +85,7 @@ export default class PointModel extends Observable {
       ];
       this._notify(updateType);
     } catch (error) {
-      throw new Error("Can't delete point");
+      throw new Error(`Can't delete point`);
     }
   }
 
@@ -115,13 +115,13 @@ export default class PointModel extends Observable {
   #adaprToClientOffersAndDestination(points, offers, destinations) {
     points = points.map((point) => {
       point.offers = offers
-        .find((offer) => offer.type == point.type)
+        .find((offer) => offer.type === point.type)
         .offers.filter((offer) =>
-          point.offers.find((offerInPoint) => offerInPoint == offer.id)
+          point.offers.find((offerInPoint) => offerInPoint === offer.id)
         );
 
       point.destination = destinations.find(
-        (destination) => destination.id == point.destination
+        (destination) => destination.id === point.destination
       );
 
       return point;

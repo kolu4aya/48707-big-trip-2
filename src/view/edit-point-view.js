@@ -105,11 +105,7 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
                     <label class='event__label  event__type-output' for='event-destination-1'>
                       ${type}
                     </label>
-                    <input class='event__input  event__input--destination' id='event-destination-1' autocomplete='off' type='text' name='event-destination' required value='${
-                      destination !== undefined && destination
-                        ? destination.name
-                        : ''
-                    }' list='destination-list-1'>
+                    <input class='event__input  event__input--destination' id='event-destination-1' autocomplete='off' type='text' name='event-destination' required value='${destination !== undefined && destination ? destination.name : ''}' list='destination-list-1'>
                     <datalist id='destination-list-1'>
                       ${createDestinations(destinations)}
                     </datalist>
@@ -233,6 +229,7 @@ export default class EditPointView extends AbstractStatefulView {
       type: changeType,
     });
   };
+  
   #priceChangeHandler = (evt) => {
     const cost = Number(evt.target.value);
     this.updateElement({
