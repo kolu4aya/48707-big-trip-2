@@ -14,15 +14,25 @@ export default class PointPresenter {
   #pointEditComponent = null;
   #point = null;
 
+  #offers = [];
+  #destinations = [];
+
   #handleDataChange = null;
   #handleModeChange = null;
 
   #mode = Mode.DEFAULT;
 
-  constructor({ listEventsContainer, onDataChange, onModeChange }) {
+  constructor({
+    listEventsContainer,
+    onDataChange,
+    onModeChange,
+    offers,
+    destinations,
+  }) {
     this.#listEventsContainer = listEventsContainer;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
+    (this.#offers = offers), (this.#destinations = destinations);
   }
 
   init(point) {
@@ -41,6 +51,8 @@ export default class PointPresenter {
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
+      offers: this.#offers,
+      destinations: this.#destinations,
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
@@ -53,7 +65,8 @@ export default class PointPresenter {
     }
 
     if (this.#mode === Mode.EDITING) {
-      replace(this.#pointEditComponent, prevPointEditComponent);
+      replace(this.#pointComponent, prevPointEditComponent);
+      this.#mode = Mode.DEFAULT;
     }
 
     remove(prevPointComponent);
@@ -69,6 +82,41 @@ export default class PointPresenter {
     if (this.#mode !== Mode.DEFAULT) {
       this.#replaceFormToCard();
     }
+  }
+
+  setSaving() {
+    if (this.#mode === Mode.EDITING) {
+      this.#pointEditComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
+  }
+
+  setDeleting() {
+    if (this.#mode === Mode.EDITING) {
+      this.#pointEditComponent.updateElement({
+        isDisabled: true,
+        isDeleting: true,
+      });
+    }
+  }
+
+  setAborting() {
+    if (this.#mode === Mode.DEFAULT) {
+      this.#pointComponent.shake();
+      return;
+    }
+
+    const resetFormState = () => {
+      this.#pointComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#pointComponent.shake(resetFormState);
   }
 
   #replaceCardToForm() {
@@ -90,7 +138,6 @@ export default class PointPresenter {
 
   #handleFormSubmit = (update) => {
     this.#handleDataChange(UserAction.UPDATE_POINT, UpdateType.MINOR, update);
-    this.#replaceFormToCard();
   };
 
   #handleDeleteClick = (point) => {
