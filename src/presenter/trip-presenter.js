@@ -44,8 +44,7 @@ export default class TripPresenter {
 
   #offers = [];
   #destinations = [];
-  #renderedPointCount = POINT_COUNT_PER_STEP;
-  
+  #renderedPointCount = POINT_COUNT_PER_STEP;  
   #onNewPointDestroy = null;
 
   constructor({
