@@ -173,7 +173,8 @@ export default class EditPointView extends AbstractStatefulView {
     this._setState(EditPointView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
     this.#handleDeleteClick = onDeleteClick;
-    (this.#offers = offers), (this.#destinations = destinations);
+    this.#offers = offers;
+    this.#destinations = destinations;
     this._restoreHandlers();
   }
 
@@ -229,7 +230,7 @@ export default class EditPointView extends AbstractStatefulView {
       type: changeType,
     });
   };
-  
+
   #priceChangeHandler = (evt) => {
     const cost = Number(evt.target.value);
     this.updateElement({

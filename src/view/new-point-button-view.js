@@ -10,7 +10,7 @@ export default class NewPointButtonView extends AbstractView {
   constructor({ onClick }) {
     super();
     this.#handleClick = onClick;
-    this.element.addEventListener("click", this.#clickHandler);
+    this.element.addEventListener('click', this.#clickHandler);
   }
 
   get template() {

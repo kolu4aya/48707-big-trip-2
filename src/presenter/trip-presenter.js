@@ -41,12 +41,11 @@ export default class TripPresenter {
     lowerLimit: TimeLimit.LOWER_LIMIT,
     upperLimit: TimeLimit.UPPER_LIMIT,
   });
-  
+
   #offers = [];
   #destinations = [];
-
   #renderedPointCount = POINT_COUNT_PER_STEP;
-
+  
   #onNewPointDestroy = null;
 
   constructor({
