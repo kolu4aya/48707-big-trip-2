@@ -50,14 +50,14 @@ export default class PointApiService extends ApiService {
   #adaptToServer(point) {
     const adaptedPoint = {
       ...point,
-      date_from:
+      "date_from":
         point.timeStart instanceof Date ? point.timeStart.toISOString() : null, // На сервере дата хранится в ISO формате
-      date_to:
+      "date_to":
         point.timeEnd instanceof Date ? point.timeEnd.toISOString() : null, // На сервере дата хранится в ISO формате
-      base_price: point.cost,
-      is_favorite: point.favorite,
-      offers: point.offers ? point.offers.map((offer) => offer.id) : [],
-      destination: point.destination.id,
+      "base_price": point.cost,
+      "is_favorite": point.favorite,
+      "offers": point.offers ? point.offers.map((offer) => offer.id) : [],
+      "destination": point.destination.id,
     };
 
     delete adaptedPoint.timeStart;
