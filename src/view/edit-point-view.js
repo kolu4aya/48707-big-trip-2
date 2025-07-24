@@ -249,7 +249,7 @@ export default class EditPointView extends AbstractStatefulView {
     if (offerElement.checked) {
       point.offers.push(offer);
     } else {
-      point.offers = this._state.offers.filter((offer) => offer.id !== offerId);
+      point.offers = this._state.offers.filter((item) => item.id !== offerId);
     }
 
     this.updateElement({

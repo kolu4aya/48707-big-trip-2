@@ -54,7 +54,7 @@ export default class PointModel extends Observable {
         updatedPoint,
         offers,
         destinations
-      )
+      );
 
       this.#points = [
         ...this.#points.slice(0, index),
@@ -128,9 +128,9 @@ export default class PointModel extends Observable {
   }
 
   #adaprToClientOffersAndDestination(point, offers, destinations) {
-      point.offers = offers.find((offer) => offer.type === point.type).offers.filter((offer) =>point.offers.find((offerInPoint) => offerInPoint === offer.id));
+    point.offers = offers.find((offer) => offer.type === point.type).offers.filter((offer) =>point.offers.find((offerInPoint) => offerInPoint === offer.id));
 
-      point.destination = destinations.find((destination) => destination.id === point.destination);
+    point.destination = destinations.find((destination) => destination.id === point.destination);
 
     return point;
   }
