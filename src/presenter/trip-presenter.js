@@ -1,14 +1,14 @@
-import { render, remove } from "../framework/render.js";
-import ListSortView from "../view/list-sort-view";
-import ListEventView from "../view/list-event-view";
-import LoadMoreButtonView from "../view/load-more-button-view";
-import PointPresenter from "./point-presenter";
-import NewPointPresenter from "./new-point-presenter";
-import { SortType, UpdateType, UserAction, FilterType } from "../const";
-import { sortPointPrice, sortPointDay, sortPointTime } from "../utils/point";
-import { filter } from "../utils/filter.js";
-import LoadingView from "../view/loading-view.js";
-import UiBlocker from "../framework/ui-blocker/ui-blocker.js";
+import { render, remove } from '../framework/render.js';
+import ListSortView from '../view/list-sort-view';
+import ListEventView from '../view/list-event-view';
+import LoadMoreButtonView from '../view/load-more-button-view';
+import PointPresenter from './point-presenter';
+import NewPointPresenter from './new-point-presenter';
+import { SortType, UpdateType, UserAction, FilterType } from '../const';
+import { sortPointPrice, sortPointDay, sortPointTime } from '../utils/point';
+import { filter } from '../utils/filter.js';
+import LoadingView from '../view/loading-view.js';
+import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 
 const POINT_COUNT_PER_STEP = 8;
 
