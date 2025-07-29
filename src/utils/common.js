@@ -6,4 +6,4 @@ export const generatingAuthString = () => {
   const encodedCredentials = btoa(credentials);
 
   return encodedCredentials;
-}
+};

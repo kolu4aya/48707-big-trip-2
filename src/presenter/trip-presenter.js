@@ -23,7 +23,6 @@ export default class TripPresenter {
   #listEventsContainer = null;
   #listEventComponent = new ListEventView();
   #loadingComponent = new LoadingView();
-  
   #failedLoadDataComponent = new FailedLoadDataView();
   #loadMoreButtonComponent = null;
   #noPointComponent = null;
@@ -336,7 +335,7 @@ export default class TripPresenter {
     }
   }
 
-  handleLoadingError(e) {
+  handleLoadingError() {
     this.#isLoading = false;
     remove(this.#loadingComponent);
     render(this.#failedLoadDataComponent, this.#listEventsContainer);

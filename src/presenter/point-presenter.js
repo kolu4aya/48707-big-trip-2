@@ -1,6 +1,5 @@
 import {
   render,
-  RenderPosition,
   replace,
   remove,
 } from '../framework/render.js';

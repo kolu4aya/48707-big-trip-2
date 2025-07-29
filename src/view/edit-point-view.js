@@ -73,7 +73,7 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
       destinationForPhoto.pictures?.length > 0
     ) {
       const { pictures = [] } = destinationForPhoto;
-      str ='<div class="event__photos-container"><div class="event__photos-tape">';
+      str = '<div class="event__photos-container"><div class="event__photos-tape">';
       str += pictures.map((item) =>`<img class='event__photo' src='${item.src}' alt='${item.alt}'>`);
       str += '</div></div>';
     }
@@ -83,6 +83,10 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
 
   const dateStart = humanizePointDate(timeStart, 'DD/MM/YY HH:mm');
   const dateEnd = humanizePointDate(timeEnd, 'DD/MM/YY HH:mm');
+
+const newButtonText = isDeleting ? 'canceling...' : 'cancel';
+const existingButtonText = isDeleting ? 'deleting...' : 'delete';
+const resetButtonText = isNew ? newButtonText : existingButtonText;
 
   return `<li class='trip-events__item'><form class='event event--edit' action='#' method='post'>
                 <header class='event__header'>
@@ -128,7 +132,7 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
                   </div>
 
                   <button class='event__save-btn  btn  btn--blue' type='submit' ${isDisabled ? 'disabled' : ''}>${isSaving ? 'saving...' : 'save'}</button>
-                  <button class='event__reset-btn' type='reset' ${isDisabled ? 'disabled' : ''}> ${isNew ? isDeleting ? 'canceling...' : 'cancel' : isDeleting ? 'deleting...' : 'delete'}</button>
+                  <button class='event__reset-btn' type='reset' ${isDisabled ? 'disabled' : ''}> ${resetButtonText}</button>
                   <button class='event__rollup-btn' type='button'>
                     <span class='visually-hidden'>Open event</span>
                   </button>
@@ -141,7 +145,7 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
                     ${createOffers(allOffers, type)}
                     </div>
                   </section>` : ''}
-                  ${destination && destination.description? `<section class='event__section  event__section--destination'>
+                  ${destination && destination.description ? `<section class='event__section  event__section--destination'>
                     <h3 class='event__section-title  event__section-title--destination'>Destination</h3>
                     <p class='event__destination-description'>
                        ${destination.description}
@@ -322,7 +326,7 @@ export default class EditPointView extends AbstractStatefulView {
     }
 
     const startInput = this.element.querySelector('#event-start-time-1');
-    if (!startInput) return;
+    if (!startInput) {return};
 
     this.#startDatepicker = flatpickr(startInput, {
       enableTime: true,
@@ -337,7 +341,7 @@ export default class EditPointView extends AbstractStatefulView {
           }
         }, 0);
       },
-      onChange: (selectedDates, dateStr) => {
+      onChange: (selectedDates) => {
         this.#startDateChangeHendler(selectedDates);
         // После изменения даты оставляем календарь открытым
         if (this.#startDatepicker) {
@@ -353,7 +357,7 @@ export default class EditPointView extends AbstractStatefulView {
     }
 
     const endInput = this.element.querySelector('#event-end-time-1');
-    if (!endInput) return;
+    if (!endInput) {return};
 
     this.#endDatepicker = flatpickr(endInput, {
       enableTime: true,
@@ -368,7 +372,7 @@ export default class EditPointView extends AbstractStatefulView {
           }
         }, 0);
       },
-      onChange: (selectedDates, dateStr) => {
+      onChange: (selectedDates) => {
         this.#endDateChangeHendler(selectedDates);
         // После изменения даты оставляем календарь открытым
         if (this.#endDatepicker) {

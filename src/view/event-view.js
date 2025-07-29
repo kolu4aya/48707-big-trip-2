@@ -4,7 +4,6 @@ import { humanizePointDate } from '../utils/point';
 function createTaskTemplate(point) {
   const { type, destination, offers, timeStart, timeEnd, favorite, cost } =
     point;
-    // console.log(point)
 
   function offersToString(items) {
     return items
@@ -30,12 +29,13 @@ function createTaskTemplate(point) {
   const h = Math.floor((duration - d * 60 ** 2 * 24) / 60 ** 2);
   const m = Math.floor((duration - d * 60 ** 2 * 24 - h * 60 ** 2) / 60);
   if (d > 0) {
-    duration = `${d < 10 ? '0' + d : d}D ${h < 10 ? '0'+h : h}H ${m < 10 ? '0' + m : m}M`;
+    duration = `${d < 10 ? `0${d}` : d}D ${h < 10 ? `0${h}` : h}H ${m < 10 ? `0${m}` : m}M`;
   } else if (h > 0) {
-    duration = `${h < 10 ? '0'+h : h}H  ${m < 10 ? '0' + m : m}M`;
+    duration = `${h < 10 ? `0${h}` : h}H  ${m < 10 ? `0${m}` : m}M`;
   } else {
-    duration = `${m < 10 ? '0' + m : m}M`;
+    duration = `${m < 10 ? `0${m}` : m}M`;
   }
+  
   const favoriteClassName = favorite ? 'event__favorite-btn--active' : '';
 
   return `<li class='trip-events__item'><div class='event'>
