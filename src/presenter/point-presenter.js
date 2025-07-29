@@ -127,7 +127,6 @@ export default class PointPresenter {
         isDeleting: false,
       });
     };
-
     this.#pointEditComponent.shake(resetFormState);
   }
 

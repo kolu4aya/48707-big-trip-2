@@ -4,6 +4,7 @@ import { humanizePointDate } from '../utils/point';
 function createTaskTemplate(point) {
   const { type, destination, offers, timeStart, timeEnd, favorite, cost } =
     point;
+    // console.log(point)
 
   function offersToString(items) {
     return items

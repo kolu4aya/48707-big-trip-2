@@ -21,7 +21,6 @@ const END_POINT = 'https://22.objects.htmlacademy.pro/big-trip';
 const filterContainer = document.querySelector('.trip-controls__filters');
 const tripEventsContainer = document.querySelector('.trip-events');
 const tripMainContainer = document.querySelector('.trip-main');
-const tripEventsListContainer = document.querySelector('.trip-main');
 
 const offerModel = new OfferModel({
   offerApiService: new OfferApiService(END_POINT, AUTHORIZATION),

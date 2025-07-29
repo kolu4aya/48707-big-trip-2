@@ -23,6 +23,7 @@ export default class TripPresenter {
   #listEventsContainer = null;
   #listEventComponent = new ListEventView();
   #loadingComponent = new LoadingView();
+  
   #failedLoadDataComponent = new FailedLoadDataView();
   #loadMoreButtonComponent = null;
   #noPointComponent = null;
@@ -277,6 +278,7 @@ export default class TripPresenter {
   } = {}) {
     this.#resetAllPointPresenters();
     const pointCount = this.points.length;
+
     this.#newPointPresenter?.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();

@@ -156,9 +156,9 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
 export default class EditPointView extends AbstractStatefulView {
   #handleFormSubmit = null;
   #handleDeleteClick = null;
+
   #startDatepicker = null;
   #endDatepicker = null;
-
   #offers = [];
   #destinations = [];
 
@@ -239,8 +239,8 @@ export default class EditPointView extends AbstractStatefulView {
 
   #typeChangeHandler = (evt) => {
     const changeType = evt.target.value.toLowerCase();
-    this._state.offers = [];
 
+    this._state.offers = [];
     this.updateElement({
       type: changeType,
     });
@@ -266,6 +266,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #priceChangeHandler = (evt) => {
     const cost = evt.target.value;
+
     if (/\d{1,5}/.test(cost) && Number(cost) > 0 && Number(cost) < 100000) {
       this.updateElement({
         cost: Number(cost),
