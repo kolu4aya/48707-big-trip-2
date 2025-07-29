@@ -3,13 +3,13 @@ import { FilterType } from '../const';
 
 const NoPointsTextType = {
   [FilterType.EVERYTHING]:
-    'Click «ADD NEW POINT in menu to create your first point',
-  [FilterType.FUTURE]: 'There are no future points now',
-  [FilterType.PRESENT]: 'There are no points present',
-  [FilterType.PAST]: 'There are no past points now',
+    'Click New event to create your first point',
+  [FilterType.FUTURE]: 'There are no future events now',
+  [FilterType.PRESENT]: 'there are no present events now',
+  [FilterType.PAST]: 'There are no past events now',
 };
 
-function createListEmptyTemplate() {
+function createListEmptyTemplate(FilterType, err) {
   const noPointTextValue = NoPointsTextType[FilterType];
   return `<p class='trip-events__msg'>${noPointTextValue}</p>`;
 }
@@ -17,7 +17,7 @@ function createListEmptyTemplate() {
 export default class ListEmptyView extends AbstractView {
   #filterType = null;
 
-  constructor({ filterType }) {
+  constructor({ filterType, err }) {
     super();
     this.#filterType = filterType;
   }

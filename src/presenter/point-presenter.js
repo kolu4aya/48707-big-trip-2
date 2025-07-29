@@ -1,4 +1,9 @@
-import { render, replace, remove } from '../framework/render.js';
+import {
+  render,
+  RenderPosition,
+  replace,
+  remove,
+} from '../framework/render.js';
 import EventView from '../view/event-view';
 import EditEventView from '../view/edit-point-view';
 import { UserAction, UpdateType } from '../const';
@@ -9,20 +14,34 @@ const Mode = {
 };
 
 export default class PointPresenter {
+  #closeNewPointForm = null;
   #listEventsContainer = null;
   #pointComponent = null;
   #pointEditComponent = null;
   #point = null;
+
+  #offers = [];
+  #destinations = [];
 
   #handleDataChange = null;
   #handleModeChange = null;
 
   #mode = Mode.DEFAULT;
 
-  constructor({ listEventsContainer, onDataChange, onModeChange }) {
+  constructor({
+    onCloseNewPointForm,
+    listEventsContainer,
+    onDataChange,
+    onModeChange,
+    offers,
+    destinations,
+  }) {
+    this.#closeNewPointForm = onCloseNewPointForm;
     this.#listEventsContainer = listEventsContainer;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
+    this.#offers = offers;
+    this.#destinations = destinations;
   }
 
   init(point) {
@@ -41,6 +60,8 @@ export default class PointPresenter {
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
+      offers: this.#offers,
+      destinations: this.#destinations,
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
@@ -53,7 +74,8 @@ export default class PointPresenter {
     }
 
     if (this.#mode === Mode.EDITING) {
-      replace(this.#pointEditComponent, prevPointEditComponent);
+      replace(this.#pointComponent, prevPointEditComponent);
+      this.#mode = Mode.DEFAULT;
     }
 
     remove(prevPointComponent);
@@ -67,21 +89,67 @@ export default class PointPresenter {
 
   resetView() {
     if (this.#mode !== Mode.DEFAULT) {
+      if (this.#pointEditComponent) {
+        this.#pointEditComponent.reset(this.#point);
+      }
       this.#replaceFormToCard();
     }
+  }
+
+  setSaving() {
+    if (this.#mode === Mode.EDITING) {
+      this.#pointEditComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
+  }
+
+  setDeleting() {
+    if (this.#mode === Mode.EDITING) {
+      this.#pointEditComponent.updateElement({
+        isDisabled: true,
+        isDeleting: true,
+      });
+    }
+  }
+
+  setAborting() {
+    if (this.#mode === Mode.DEFAULT) {
+      this.#pointComponent.shake();
+      return;
+    }
+
+    const resetFormState = () => {
+      this.#pointEditComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#pointEditComponent.shake(resetFormState);
   }
 
   #replaceCardToForm() {
     replace(this.#pointEditComponent, this.#pointComponent);
     document.addEventListener('keydown', this.#escKeyDownHandler);
+
+    if (this.#closeNewPointForm) {
+      this.#closeNewPointForm();
+    }
+
     this.#handleModeChange();
     this.#mode = Mode.EDITING;
   }
 
   #replaceFormToCard() {
-    replace(this.#pointComponent, this.#pointEditComponent);
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
-    this.#mode = Mode.DEFAULT;
+    if (this.#pointEditComponent) {
+      replace(this.#pointComponent, this.#pointEditComponent);
+      document.removeEventListener('keydown', this.#escKeyDownHandler);
+
+      this.#mode = Mode.DEFAULT;
+    }
   }
 
   #handleEditClick = () => {
@@ -90,7 +158,6 @@ export default class PointPresenter {
 
   #handleFormSubmit = (update) => {
     this.#handleDataChange(UserAction.UPDATE_POINT, UpdateType.MINOR, update);
-    this.#replaceFormToCard();
   };
 
   #handleDeleteClick = (point) => {
@@ -100,8 +167,8 @@ export default class PointPresenter {
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
+      this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToCard();
-      document.removeEventListener('keydown', this.#escKeyDownHandler);
     }
   };
 

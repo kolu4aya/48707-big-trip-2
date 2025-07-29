@@ -44,4 +44,21 @@ export default class ListSortView extends AbstractView {
     evt.preventDefault();
     this.#handleSortTypeChange(evt.target.dataset.sortType);
   };
+
+  updateElement({ currentSortType }) {
+  if (currentSortType !== undefined) {
+    this.#currentSortType = currentSortType;
+  }
+  
+  const prevElement = this.element;
+  this.removeElement();
+  const newElement = this.element;
+  
+  if (prevElement && newElement) {
+    prevElement.replaceWith(newElement);
+  }
+  
+  // this._restoreHandlers();
+}
+
 }
