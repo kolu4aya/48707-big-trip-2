@@ -31,19 +31,11 @@
     "node": "20"
   },
   "dependencies": {
-<<<<<<< Updated upstream
-    "css-loader": "^6.7.3",
-    "dayjs": "^1.11.13",
-    "flatpickr": "^4.6.13",
-    "he": "^1.2.0",
-    "style-loader": "^3.3.2"
-=======
     "css-loader": "6.7.3",
     "dayjs": "1.11.13",
     "flatpickr": "4.6.13",
     "he": "1.2.0",
     "nanoid": "4.0.2",
     "style-loader": "3.3.2"
->>>>>>> Stashed changes
   }
 }
