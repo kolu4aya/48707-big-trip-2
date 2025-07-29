@@ -35,7 +35,7 @@ function createTaskTemplate(point) {
   } else {
     duration = `${m < 10 ? `0${m}` : m}M`;
   }
-  
+
   const favoriteClassName = favorite ? 'event__favorite-btn--active' : '';
 
   return `<li class='trip-events__item'><div class='event'>

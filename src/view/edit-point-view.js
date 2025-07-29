@@ -84,9 +84,9 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
   const dateStart = humanizePointDate(timeStart, 'DD/MM/YY HH:mm');
   const dateEnd = humanizePointDate(timeEnd, 'DD/MM/YY HH:mm');
 
-const newButtonText = isDeleting ? 'canceling...' : 'cancel';
-const existingButtonText = isDeleting ? 'deleting...' : 'delete';
-const resetButtonText = isNew ? newButtonText : existingButtonText;
+  const newButtonText = isDeleting ? 'canceling...' : 'cancel';
+  const existingButtonText = isDeleting ? 'deleting...' : 'delete';
+  const resetButtonText = isNew ? newButtonText : existingButtonText;
 
   return `<li class='trip-events__item'><form class='event event--edit' action='#' method='post'>
                 <header class='event__header'>
@@ -326,7 +326,9 @@ export default class EditPointView extends AbstractStatefulView {
     }
 
     const startInput = this.element.querySelector('#event-start-time-1');
-    if (!startInput) {return};
+    if (!startInput) {
+      return;
+    }
 
     this.#startDatepicker = flatpickr(startInput, {
       enableTime: true,
@@ -357,7 +359,9 @@ export default class EditPointView extends AbstractStatefulView {
     }
 
     const endInput = this.element.querySelector('#event-end-time-1');
-    if (!endInput) {return};
+    if (!endInput) {
+      return;
+    }
 
     this.#endDatepicker = flatpickr(endInput, {
       enableTime: true,

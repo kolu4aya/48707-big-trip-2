@@ -49,11 +49,11 @@ export default class ListSortView extends AbstractView {
     if (currentSortType !== undefined) {
       this.#currentSortType = currentSortType;
     }
-    
+
     const prevElement = this.element;
     this.removeElement();
     const newElement = this.element;
-    
+
     if (prevElement && newElement) {
       prevElement.replaceWith(newElement);
     }
