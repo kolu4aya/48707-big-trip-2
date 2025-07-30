@@ -1,5 +1,5 @@
-import Observable from '../framework/observable';
-import { UpdateType } from '../const.js';
+import Observable from "../framework/observable";
+import { UpdateType } from "../const.js";
 
 export default class PointModel extends Observable {
   #pointApiService = null;
@@ -29,7 +29,7 @@ export default class PointModel extends Observable {
         this.#adaprToClientOffersAndDestination(point, offers, destinations)
       );
     } catch (err) {
-      throw new Error('Failed to load latest route information (points)');
+      throw new Error("Failed to load latest route information (points)");
     }
 
     this._notify(UpdateType.INIT);
@@ -39,13 +39,13 @@ export default class PointModel extends Observable {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
-      throw new Error('Can\'t update unexisting point');
+      throw new Error("Can't update unexisting point");
     }
 
     try {
       const response = await this.#pointApiService.updatePoint(update);
-      let updatedPoint = this.#adaptToClient(response);
-      const destinations = this.#destinationModel.destinations;
+      let updatedPoint = await this.#adaptToClient(response);
+      const destinations = await this.#destinationModel.destinations;
       const offers = this.#offerModel.offers;
       updatedPoint = this.#adaprToClientOffersAndDestination(
         updatedPoint,
@@ -60,7 +60,7 @@ export default class PointModel extends Observable {
       ];
       this._notify(updateType, updatedPoint);
     } catch (error) {
-      throw new Error('Can\'t update point');
+      throw new Error("Can't update point");
     }
   }
 
@@ -68,8 +68,8 @@ export default class PointModel extends Observable {
     try {
       const response = await this.#pointApiService.addPoint(update);
       let newPoint = this.#adaptToClient(response);
-      const destinations = this.#destinationModel.destinations;
-      const offers = this.#offerModel.offers;
+      const destinations = await this.#destinationModel.destinations;
+      const offers = await this.#offerModel.offers;
       newPoint = this.#adaprToClientOffersAndDestination(
         newPoint,
         offers,
@@ -78,7 +78,7 @@ export default class PointModel extends Observable {
       this.#points = [newPoint, ...this.#points];
       this._notify(updateType.MAJOR, newPoint);
     } catch (error) {
-      throw new Error('Can\'t add point');
+      throw new Error("Can't add point");
     }
   }
 
@@ -86,7 +86,7 @@ export default class PointModel extends Observable {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
-      throw new Error('Can\'t delete unexisting point');
+      throw new Error("Can't delete unexisting point");
     }
 
     try {
@@ -97,7 +97,7 @@ export default class PointModel extends Observable {
       ];
       this._notify(updateType);
     } catch (error) {
-      throw new Error('Can\'t delete point');
+      throw new Error("Can't delete point");
     }
   }
 
@@ -105,29 +105,35 @@ export default class PointModel extends Observable {
     const adaptedPont = {
       ...point,
       timeStart:
-        point['date_from'] !== null
-          ? new Date(point['date_from'])
-          : point['date_from'],
+        point["date_from"] !== null
+          ? new Date(point["date_from"])
+          : point["date_from"],
       timeEnd:
-        point['date_to'] !== null
-          ? new Date(point['date_to'])
-          : point['date_to'],
-      cost: point['base_price'],
-      favorite: point['is_favorite'],
+        point["date_to"] !== null
+          ? new Date(point["date_to"])
+          : point["date_to"],
+      cost: point["base_price"],
+      favorite: point["is_favorite"],
     };
 
-    delete adaptedPont['date_from'];
-    delete adaptedPont['date_to'];
-    delete adaptedPont['base_price'];
-    delete adaptedPont['is_favorite'];
+    delete adaptedPont["date_from"];
+    delete adaptedPont["date_to"];
+    delete adaptedPont["base_price"];
+    delete adaptedPont["is_favorite"];
 
     return adaptedPont;
   }
 
   #adaprToClientOffersAndDestination(point, offers, destinations) {
-    console.log(offers, destinations)
-    point.offers = offers.find((offer) => offer.type === point.type).offers.filter((offer) => point.offers.find((offerInPoint) => offerInPoint === offer.id));
-    point.destination = destinations.find((destination) => destination.id === point.destination);
+    console.log(offers, destinations);
+    point.offers = offers
+      .find((offer) => offer.type === point.type)
+      .offers.filter((offer) =>
+        point.offers.find((offerInPoint) => offerInPoint === offer.id)
+      );
+    point.destination = destinations.find(
+      (destination) => destination.id === point.destination
+    );
 
     return point;
   }
