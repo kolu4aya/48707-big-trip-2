@@ -259,6 +259,10 @@ export default class TripPresenter {
   }
 
   #renderLoading() {
+    if (this.#loadingComponent) {
+       remove(this.#loadingComponent);
+    }
+
     render(this.#loadingComponent, this.#listEventsContainer);
   }
 
