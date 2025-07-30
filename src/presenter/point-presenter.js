@@ -166,7 +166,7 @@ export default class PointPresenter {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       this.#pointEditComponent.reset(this.#point);
-      // this.#replaceFormToCard();
+      this.#replaceFormToCard();
     }
   };
 
@@ -176,4 +176,13 @@ export default class PointPresenter {
       isFavorite: !this.#point.isFavorite,
     });
   };
+
+   setComplete() {
+    if (this.#pointEditComponent) {
+      this.#pointEditComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+      });
+    }
+  }
 }

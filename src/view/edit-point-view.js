@@ -30,8 +30,6 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
     isNew,
   } = data;
 
-  console.log(isDisabled)
-
   const createTypes = (items = TYPE_OF_ROUTE) =>
     items
       .map((item) => {

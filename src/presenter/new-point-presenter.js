@@ -53,10 +53,8 @@ export default class NewPointPresenter {
     }
 
     this.#handleDestroy();
-
     remove(this.#pointEditComponent);
     this.#pointEditComponent = null;
-    this.#handleDestroy();
 
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   }
@@ -78,15 +76,6 @@ export default class NewPointPresenter {
     };
 
     this.#pointEditComponent.shake(resetFormState);
-  }
-
-  setComplete() {
-    if (this.#pointEditComponent) {
-      this.#pointEditComponent.updateElement({
-        isDisabled: false,
-        isSaving: false,
-      });
-    }
   }
 
   #handleFormSubmit = (point) => {

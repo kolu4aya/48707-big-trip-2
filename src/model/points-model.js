@@ -76,7 +76,7 @@ export default class PointModel extends Observable {
         destinations
       );
       this.#points = [newPoint, ...this.#points];
-      this._notify(updateType.MAJOR, newPoint);
+      this._notify(updateType, newPoint);
     } catch (error) {
       throw new Error("Can't add point");
     }
@@ -125,7 +125,6 @@ export default class PointModel extends Observable {
   }
 
   #adaprToClientOffersAndDestination(point, offers, destinations) {
-    console.log(offers, destinations);
     point.offers = offers
       .find((offer) => offer.type === point.type)
       .offers.filter((offer) =>

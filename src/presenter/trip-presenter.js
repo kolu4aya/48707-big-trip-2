@@ -160,7 +160,6 @@ export default class TripPresenter {
         this.#pointPresenters.get(update.id).setSaving();
         try {
           await this.#pointsModel.updatePoint(updateType, update);
-          // this.#newPointPresenter.setComplete();
         } catch (error) {
           this.#pointPresenters.get(update.id).setAborting();
         }
@@ -170,7 +169,6 @@ export default class TripPresenter {
         this.#newPointPresenter.setSaving();
         try {
           await this.#pointsModel.addPoint(updateType, update);
-          this.#newPointPresenter.setComplete();
         } catch (error) {
           this.#newPointPresenter.setAborting();
         }
@@ -245,6 +243,10 @@ export default class TripPresenter {
   };
 
   #renderSort() {
+    if (this.#listSortComponent) {
+       remove(this.#listSortComponent);
+    }
+   
     this.#listSortComponent = new ListSortView({
       currentSortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange,
@@ -317,7 +319,7 @@ export default class TripPresenter {
     }
     this.#renderSort();
 
-    render(this.#listEventComponent, this.#listEventsContainer);
+    // render(this.#listEventComponent, this.#listEventsContainer);
 
     const points = this.points;
     const pointCount = points.length;
