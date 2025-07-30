@@ -166,7 +166,7 @@ export default class PointPresenter {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       this.#pointEditComponent.reset(this.#point);
-      this.#replaceFormToCard();
+      // this.#replaceFormToCard();
     }
   };
 

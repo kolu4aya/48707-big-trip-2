@@ -160,14 +160,17 @@ export default class TripPresenter {
         this.#pointPresenters.get(update.id).setSaving();
         try {
           await this.#pointsModel.updatePoint(updateType, update);
+          // this.#newPointPresenter.setComplete();
         } catch (error) {
           this.#pointPresenters.get(update.id).setAborting();
         }
+        
         break;
       case UserAction.ADD_POINT:
         this.#newPointPresenter.setSaving();
         try {
           await this.#pointsModel.addPoint(updateType, update);
+          this.#newPointPresenter.setComplete();
         } catch (error) {
           this.#newPointPresenter.setAborting();
         }

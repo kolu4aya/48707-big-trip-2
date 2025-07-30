@@ -21,8 +21,8 @@ export default class PointModel extends Observable {
   async init() {
     try {
       const points = await this.#pointApiService.points;
-      const destinations = this.#destinationModel.destinations;
-      const offers = this.#offerModel.offers;
+      const destinations = await this.#destinationModel.destinations;
+      const offers = await this.#offerModel.offers;
       this.#points = points.map(this.#adaptToClient);
 
       this.#points = this.#points.map((point) =>
@@ -125,6 +125,7 @@ export default class PointModel extends Observable {
   }
 
   #adaprToClientOffersAndDestination(point, offers, destinations) {
+    console.log(offers, destinations)
     point.offers = offers.find((offer) => offer.type === point.type).offers.filter((offer) => point.offers.find((offerInPoint) => offerInPoint === offer.id));
     point.destination = destinations.find((destination) => destination.id === point.destination);
 

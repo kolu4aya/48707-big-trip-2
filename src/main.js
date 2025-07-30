@@ -69,6 +69,7 @@ Promise.all([offerModel.init(), destinationModel.init(), pointsModel.init()])
   .then(() => {
     render(newPointButtonComponent, tripMainContainer);
   })
-  .catch(() => {
+  .catch((e) => {
+    console.log(e)
     tripPresenter.handleLoadingError();
   });
