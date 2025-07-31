@@ -160,6 +160,7 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
 export default class EditPointView extends AbstractStatefulView {
   #handleFormSubmit = null;
   #handleDeleteClick = null;
+  #handleCancelClick = null;
 
   #startDatepicker = null;
   #endDatepicker = null;
@@ -170,6 +171,7 @@ export default class EditPointView extends AbstractStatefulView {
     point = BLANK_POINT,
     onFormSubmit,
     onDeleteClick,
+    onCancelClick,
     offers,
     destinations,
   }) {
@@ -177,6 +179,7 @@ export default class EditPointView extends AbstractStatefulView {
     this._setState(EditPointView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
     this.#handleDeleteClick = onDeleteClick;
+    this.#handleCancelClick = onCancelClick;
     this.#offers = offers;
     this.#destinations = destinations;
     this._restoreHandlers();
@@ -211,7 +214,7 @@ export default class EditPointView extends AbstractStatefulView {
     this.element.addEventListener('submit', this.#formSubmitHandler);
     this.element
       .querySelector('.event--edit .event__rollup-btn')
-      .addEventListener('click', this.#formSubmitHandler);
+      .addEventListener('click', this.#handleCancelClick);
     this.element
       .querySelectorAll('.event__type-input')
       .forEach((item) =>

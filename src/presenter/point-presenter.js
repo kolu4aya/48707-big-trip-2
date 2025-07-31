@@ -59,6 +59,7 @@ export default class PointPresenter {
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
+      onCancelClick: this.#escKeyDownHandler,
       offers: this.#offers,
       destinations: this.#destinations,
     });
@@ -163,7 +164,8 @@ export default class PointPresenter {
   };
 
   #escKeyDownHandler = (evt) => {
-    if (evt.key === 'Escape') {
+    console.log(evt)
+    if (evt.key === 'Escape' || evt.target.className === 'event__rollup-btn') {
       evt.preventDefault();
       this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToCard();
