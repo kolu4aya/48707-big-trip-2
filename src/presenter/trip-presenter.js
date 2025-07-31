@@ -161,6 +161,7 @@ export default class TripPresenter {
         try {
           await this.#pointsModel.updatePoint(updateType, update);
         } catch (error) {
+          this.#isLoading = false;
           this.#pointPresenters.get(update.id).setAborting();
         }
         
@@ -170,6 +171,7 @@ export default class TripPresenter {
         try {
           await this.#pointsModel.addPoint(updateType, update);
         } catch (error) {
+          this.#isLoading = false;
           this.#newPointPresenter.setAborting();
         }
         break;
@@ -178,6 +180,7 @@ export default class TripPresenter {
         try {
           await this.#pointsModel.deletePoint(updateType, update);
         } catch (error) {
+          this.#isLoading = false;
           this.#pointPresenters.get(update.id).setAborting();
         }
 
@@ -273,7 +276,11 @@ export default class TripPresenter {
     render(this.#noPointComponent, this.#listEventsContainer);
   }
 
-  #renderLoadMoreButton() {
+  #renderLoadMoreButton() { 
+    if (this.#loadMoreButtonComponent) {
+      remove(this.#loadMoreButtonComponent)
+    }
+
     this.#loadMoreButtonComponent = new LoadMoreButtonView({
       onClick: this.#handleLoadMoreButtonClick,
     });
