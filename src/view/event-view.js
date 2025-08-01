@@ -31,7 +31,7 @@ function createTaskTemplate(point) {
   if (d > 0) {
     duration = `${d < 10 ? `0${d}` : d}D ${h < 10 ? `0${h}` : h}H ${m < 10 ? `0${m}` : m}M`;
   } else if (h > 0) {
-    duration = `${h < 10 ? `0${h}` : h}H  ${m < 10 ? `0${m}` : m}M`;
+    duration = `${h < 10 ? `0${h}` : h}H ${m < 10 ? `0${m}` : m}M`;
   } else {
     duration = `${m < 10 ? `0${m}` : m}M`;
   }

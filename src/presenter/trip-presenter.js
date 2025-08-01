@@ -115,13 +115,12 @@ export default class TripPresenter {
       onDestroy: () => {
         this.#onNewPointDestroy();
         this.#newPointPresenter = null;
-        this.#renderTrip();
+        // this.#renderTrip();
       },
       offers: this.#offerModel.offers,
       destinations: this.#destinationModel.destinations,
     });
 
-    this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
 
     this.#newPointPresenter.init();
@@ -164,7 +163,6 @@ export default class TripPresenter {
           this.#isLoading = false;
           this.#pointPresenters.get(update.id).setAborting();
         }
-        
         break;
       case UserAction.ADD_POINT:
         this.#newPointPresenter.setSaving();
@@ -258,6 +256,7 @@ export default class TripPresenter {
   }
 
   #renderPoints(points) {
+    // this.#pointPresenters.forEach((presenter) => presenter.resetView());
     points.forEach((point) => this.#renderPoint(point));
   }
 
@@ -324,13 +323,15 @@ export default class TripPresenter {
   }
 
   #renderTrip() {
+    if (this.#listEventComponent) {
+      this.#listEventComponent.removeElement();
+    }
     if (this.#isLoading) {
       this.#renderLoading();
       return;
     }
     this.#renderSort();
-
-    // render(this.#listEventComponent, this.#listEventsContainer);
+    
 
     const points = this.points;
     const pointCount = points.length;
@@ -343,12 +344,13 @@ export default class TripPresenter {
     render(this.#listEventComponent, this.#listEventsContainer);
 
     this.#renderPoints(
-      points.slice(0, Math.min(pointCount, this.#renderedPointCount))
+      // points.slice(0, Math.min(pointCount, this.#renderedPointCount))
+      points
     );
 
-    if (pointCount > this.#renderedPointCount) {
-      this.#renderLoadMoreButton();
-    }
+    // if (pointCount > this.#renderedPointCount) {
+    //   this.#renderLoadMoreButton();
+    // }
   }
 
   handleLoadingError() {

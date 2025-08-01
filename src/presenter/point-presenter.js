@@ -164,7 +164,6 @@ export default class PointPresenter {
   };
 
   #escKeyDownHandler = (evt) => {
-    console.log(evt)
     if (evt.key === 'Escape' || evt.target.className === 'event__rollup-btn') {
       evt.preventDefault();
       this.#pointEditComponent.reset(this.#point);
