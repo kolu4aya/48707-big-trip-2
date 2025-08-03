@@ -1,4 +1,4 @@
-import { render, remove } from '../framework/render.js';
+import { render, RenderPosition, remove } from '../framework/render.js';
 import ListSortView from '../view/list-sort-view';
 import ListEventView from '../view/list-event-view';
 import ListEmptyView from '../view/list-empty';
@@ -252,11 +252,11 @@ export default class TripPresenter {
       currentSortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange,
     });
-    render(this.#listSortComponent, this.#listEventsContainer);
+    render(this.#listSortComponent, this.#listEventsContainer, RenderPosition.AFTERBEGIN);
   }
 
   #renderPoints(points) {
-    // this.#pointPresenters.forEach((presenter) => presenter.resetView());
+    this.#pointPresenters.forEach((presenter) => presenter.resetView());
     points.forEach((point) => this.#renderPoint(point));
   }
 
@@ -313,19 +313,10 @@ export default class TripPresenter {
 
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
-
-      if (this.#listSortComponent) {
-        this.#listSortComponent.updateElement({
-          currentSortType: SortType.DAY,
-        });
-      }
     }
   }
 
   #renderTrip() {
-    if (this.#listEventComponent) {
-      this.#listEventComponent.removeElement();
-    }
     if (this.#isLoading) {
       this.#renderLoading();
       return;
@@ -344,13 +335,12 @@ export default class TripPresenter {
     render(this.#listEventComponent, this.#listEventsContainer);
 
     this.#renderPoints(
-      // points.slice(0, Math.min(pointCount, this.#renderedPointCount))
-      points
+      points.slice(0, Math.min(pointCount, this.#renderedPointCount))
     );
 
-    // if (pointCount > this.#renderedPointCount) {
-    //   this.#renderLoadMoreButton();
-    // }
+    if (pointCount > this.#renderedPointCount) {
+      this.#renderLoadMoreButton();
+    }
   }
 
   handleLoadingError() {

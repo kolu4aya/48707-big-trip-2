@@ -223,9 +223,9 @@ export default class EditPointView extends AbstractStatefulView {
     this.element
       .querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
-    this.element
-      .querySelector('.event__input--price')
-      .addEventListener('keyup', this.#priceChangeHandler);
+    // this.element
+    //   .querySelector('.event__input--price')
+    //   .addEventListener('keyup', this.#priceChangeHandler);
     this.element
       .querySelectorAll('.event__offer-checkbox')
       .forEach((offer) =>
@@ -240,7 +240,13 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   #formSubmitHandler = (evt) => {
+    
     evt.preventDefault();
+    console.log(this)
+    const cost = document.querySelector('input[name="event-price"]').value
+    
+    this._setState({ cost })
+   
     this.#handleFormSubmit(EditPointView.parsePointToState(this._state));
   };
 
@@ -269,18 +275,6 @@ export default class EditPointView extends AbstractStatefulView {
     this.updateElement({
       offers: point.offers,
     });
-  };
-
-  #priceChangeHandler = (evt) => {
-    const cost = evt.target.value;
-
-    if (/\d{1,5}/.test(cost) && Number(cost) > 0 && Number(cost) < 100000) {
-      this.updateElement({
-        cost: Number(cost),
-      });
-    } else {
-      evt.target.value = '';
-    }
   };
 
   #destinationChangeHandler = (evt) => {

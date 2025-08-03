@@ -35,7 +35,7 @@ export default class NewPointPresenter {
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
       offers: this.#offers,
-      destinations: this.#destinations,
+      destinations: this.#destinations
     });
 
     render(
