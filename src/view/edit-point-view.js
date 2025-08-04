@@ -49,14 +49,16 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
     items = items.find(
       (item) => item.type === typeForOffer.toLowerCase()
     ).offers;
+
     return items
       .map((item) => {
         const itemAtr = item.title.split(item.title.split(' ').length - 1);
-        const checked = offers.find((offer) => offer.id === item.id) ? ' checked' : '';
-
+        console.log(offers)
+        const checked = offers.length && offers.find((offer) => offer?.id === item.id) ? ' checked' : '';
+        // console.log(data.id,item.id)
         return `<div class='event__offer-selector'>
-                <input class='event__offer-checkbox  visually-hidden' id='event-offer-${itemAtr}-1' type='checkbox' name='event-offer-${itemAtr}' ${checked} data-offerId = ${item.id}>
-                <label class='event__offer-label' for='event-offer-${itemAtr}-1'>
+                <input class='event__offer-checkbox  visually-hidden' id='event-offer-${data.id}-${item.id}' type='checkbox' name='event-offer-${itemAtr}' ${checked} data-offerId = '${data.id}-${item.id}'>
+                <label class='event__offer-label' for='event-offer-${data.id}-${item.id}'>
                   <span class='event__offer-title'>${item.title}</span>
                   &plus;&euro;&nbsp;
                   <span class='event__offer-price'>${item.price}</span>
@@ -116,11 +118,11 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
                   </div>
 
                   <div class='event__field-group  event__field-group--time'>
-                    <label class='visually-hidden' for='event-start-time-1'>From</label>
-                    <input class='event__input  event__input--time' data-provider='flatpickr' id='event-start-time-1' type='text' name='event-start-time' value='${dateStart}'>
+                    <label class='visually-hidden' for='event-start-time-${data.id}'>From</label>
+                    <input class='event__input  event__input--time' data-provider='flatpickr' id='event-start-time-${data.id}' type='text' name='event-start-time' value='${dateStart}'>
                     &mdash;
-                    <label class='visually-hidden' for='event-end-time-1'>To</label>
-                    <input class='event__input  event__input--time' data-provider='flatpickr' id='event-end-time-1' type='text' name='event-end-time' value='${dateEnd}'>
+                    <label class='visually-hidden' for='event-end-time-${data.id}'>To</label>
+                    <input class='event__input  event__input--time' data-provider='flatpickr' id='event-end-time-${data.id}' type='text' name='event-end-time' value='${dateEnd}'>
                   </div>
 
                   <div class='event__field-group  event__field-group--price'>
@@ -132,8 +134,8 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
                   </div>
 
                   <button class='event__save-btn  btn  btn--blue' type='submit' ${isDisabled ? 'disabled' : ''}>${isSaving ? 'saving...' : 'save'}</button>
-                  <button class='event__reset-btn' type='reset' ${isDisabled ? 'disabled' : ''}> ${resetButtonText}</button>
-                  <button class='event__rollup-btn' type='button'>
+                  <button class='event__reset-btn' type='reset'> ${resetButtonText}</button>
+                  <button class='event__rollup-btn' type='button' ${isDisabled ? 'disabled' : ''}>
                     <span class='visually-hidden'>Open event</span>
                   </button>
                 </header>
@@ -211,7 +213,13 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   _restoreHandlers() {
-    this.element.addEventListener('submit', this.#formSubmitHandler);
+    this.element
+    .querySelector('form.event--edit')
+    .addEventListener('submit', this.#formSubmitHandler);
+
+  this.element
+    .querySelector(`.event__input--price`)
+    .addEventListener(`input`, this.#costChangeHandler);
     this.element
       .querySelector('.event--edit .event__rollup-btn')
       .addEventListener('click', this.#handleCancelClick);
@@ -223,9 +231,6 @@ export default class EditPointView extends AbstractStatefulView {
     this.element
       .querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
-    // this.element
-    //   .querySelector('.event__input--price')
-    //   .addEventListener('keyup', this.#priceChangeHandler);
     this.element
       .querySelectorAll('.event__offer-checkbox')
       .forEach((offer) =>
@@ -240,13 +245,9 @@ export default class EditPointView extends AbstractStatefulView {
   }
 
   #formSubmitHandler = (evt) => {
-    
     evt.preventDefault();
-    console.log(this)
     const cost = document.querySelector('input[name="event-price"]').value
-    
     this._setState({ cost })
-   
     this.#handleFormSubmit(EditPointView.parsePointToState(this._state));
   };
 
@@ -259,19 +260,28 @@ export default class EditPointView extends AbstractStatefulView {
     });
   };
 
+  #costChangeHandler = (evt) => {
+    this._setState({
+      'cost': evt.target.value,
+    })
+  };
+
   #offerChangeHandler = (evt) => {
+    
     const offerElement = evt.target;
-    const offerId = offerElement.dataset.offerid;
+    const dataOfferId = offerElement.dataset.offerid.split("-");
+    const offerId = `${dataOfferId[2]}-${dataOfferId[3]}-${dataOfferId[4]}-${dataOfferId[5]}-${dataOfferId[6]}`  
+    
     const Alloffers = this.#offers.flatMap((category) => category.offers);
     const offer = Alloffers.find((item) => item.id === offerId);
     const point = this._state;
-
+console.log(offerElement)
     if (offerElement.checked) {
       point.offers.push(offer);
     } else {
       point.offers = this._state.offers.filter((item) => item.id !== offerId);
     }
-
+    
     this.updateElement({
       offers: point.offers,
     });
