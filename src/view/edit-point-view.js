@@ -49,15 +49,12 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
     items = items.find(
       (item) => item.type === typeForOffer.toLowerCase()
     ).offers;
-
     return items
       .map((item) => {
-        const itemAtr = item.title.split(item.title.split(' ').length - 1);
-        console.log(offers)
-        const checked = offers.length && offers.find((offer) => offer?.id === item.id) ? ' checked' : '';
-        // console.log(data.id,item.id)
+        const checked = offers.find((offer) => offer.id === item.id) ? ' checked' : '';
+
         return `<div class='event__offer-selector'>
-                <input class='event__offer-checkbox  visually-hidden' id='event-offer-${data.id}-${item.id}' type='checkbox' name='event-offer-${itemAtr}' ${checked} data-offerId = '${data.id}-${item.id}'>
+                <input class='event__offer-checkbox  visually-hidden' id='event-offer-${data.id}-${item.id}' type='checkbox' name='event-offer-${data.id}-${item.id}' ${checked} data-offerId = ${item.id}>
                 <label class='event__offer-label' for='event-offer-${data.id}-${item.id}'>
                   <span class='event__offer-title'>${item.title}</span>
                   &plus;&euro;&nbsp;
@@ -76,7 +73,7 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
     ) {
       const { pictures = [] } = destinationForPhoto;
       str = '<div class="event__photos-container"><div class="event__photos-tape">';
-      str += pictures.map((item) =>`<img class='event__photo' src='${item.src}' alt='${item.alt}'>`);
+      str += pictures.map((item) => `<img class='event__photo' src='${item.src}' alt='${item.alt}'>`);
       str += '</div></div>';
     }
 
@@ -90,7 +87,7 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
   const existingButtonText = isDeleting ? 'deleting...' : 'delete';
   const resetButtonText = isNew ? newButtonText : existingButtonText;
 
-  return `<li class='trip-events__item'><form class='event event--edit' action='#' method='post'>
+  return `<li class='trip-events__item'><form class='event event--edit' novalidate action='#' method='post'>
                 <header class='event__header'>
                   <div class='event__type-wrapper'>
                     <label class='event__type  event__type-btn' for='event-type-toggle-1'>
@@ -118,11 +115,11 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
                   </div>
 
                   <div class='event__field-group  event__field-group--time'>
-                    <label class='visually-hidden' for='event-start-time-${data.id}'>From</label>
-                    <input class='event__input  event__input--time' data-provider='flatpickr' id='event-start-time-${data.id}' type='text' name='event-start-time' value='${dateStart}'>
+                    <label class='visually-hidden' for='event-start-time-1'>From</label>
+                    <input class='event__input  event__input--time' data-provider='flatpickr' id='event-start-time-1' type='text' name='event-start-time' value='${dateStart}'>
                     &mdash;
-                    <label class='visually-hidden' for='event-end-time-${data.id}'>To</label>
-                    <input class='event__input  event__input--time' data-provider='flatpickr' id='event-end-time-${data.id}' type='text' name='event-end-time' value='${dateEnd}'>
+                    <label class='visually-hidden' for='event-end-time-1'>To</label>
+                    <input class='event__input  event__input--time' data-provider='flatpickr' id='event-end-time-1' type='text' name='event-end-time' value='${dateEnd}'>
                   </div>
 
                   <div class='event__field-group  event__field-group--price'>
@@ -135,7 +132,7 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
 
                   <button class='event__save-btn  btn  btn--blue' type='submit' ${isDisabled ? 'disabled' : ''}>${isSaving ? 'saving...' : 'save'}</button>
                   <button class='event__reset-btn' type='reset'> ${resetButtonText}</button>
-                  <button class='event__rollup-btn' type='button' ${isDisabled ? 'disabled' : ''}>
+                  <button class='event__rollup-btn' type='button'>
                     <span class='visually-hidden'>Open event</span>
                   </button>
                 </header>
@@ -214,12 +211,8 @@ export default class EditPointView extends AbstractStatefulView {
 
   _restoreHandlers() {
     this.element
-    .querySelector('form.event--edit')
-    .addEventListener('submit', this.#formSubmitHandler);
-
-  this.element
-    .querySelector(`.event__input--price`)
-    .addEventListener(`input`, this.#costChangeHandler);
+      .querySelector('form.event--edit')
+      .addEventListener('submit', this.#formSubmitHandler);
     this.element
       .querySelector('.event--edit .event__rollup-btn')
       .addEventListener('click', this.#handleCancelClick);
@@ -231,6 +224,9 @@ export default class EditPointView extends AbstractStatefulView {
     this.element
       .querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
+    this.element
+      .querySelector(`.event__input--price`)
+      .addEventListener(`input`, this.#costChangeHandler);
     this.element
       .querySelectorAll('.event__offer-checkbox')
       .forEach((offer) =>
@@ -246,9 +242,13 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    const cost = document.querySelector('input[name="event-price"]').value
-    this._setState({ cost })
     this.#handleFormSubmit(EditPointView.parsePointToState(this._state));
+  };
+
+  #costChangeHandler = (evt) => {
+    this._setState({
+      'cost': evt.target.value,
+    })
   };
 
   #typeChangeHandler = (evt) => {
@@ -260,28 +260,19 @@ export default class EditPointView extends AbstractStatefulView {
     });
   };
 
-  #costChangeHandler = (evt) => {
-    this._setState({
-      'cost': evt.target.value,
-    })
-  };
-
   #offerChangeHandler = (evt) => {
-    
     const offerElement = evt.target;
-    const dataOfferId = offerElement.dataset.offerid.split("-");
-    const offerId = `${dataOfferId[2]}-${dataOfferId[3]}-${dataOfferId[4]}-${dataOfferId[5]}-${dataOfferId[6]}`  
-    
+    const offerId = offerElement.dataset.offerid;
     const Alloffers = this.#offers.flatMap((category) => category.offers);
     const offer = Alloffers.find((item) => item.id === offerId);
     const point = this._state;
-console.log(offerElement)
+
     if (offerElement.checked) {
       point.offers.push(offer);
     } else {
       point.offers = this._state.offers.filter((item) => item.id !== offerId);
     }
-    
+
     this.updateElement({
       offers: point.offers,
     });

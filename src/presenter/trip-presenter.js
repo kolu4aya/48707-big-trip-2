@@ -49,6 +49,7 @@ export default class TripPresenter {
   #destinations = [];
   #renderedPointCount = POINT_COUNT_PER_STEP;
   #onNewPointDestroy = null;
+  #handleNewPointFormClose = null;
 
   constructor({
     listEventsContainer,
@@ -63,10 +64,15 @@ export default class TripPresenter {
     this.#filterModel = filterModel;
     this.#offerModel = offerModel;
     this.#destinationModel = destinationModel;
-    this.#onNewPointDestroy = onNewPointDestroy;
+    this.#handleNewPointFormClose = onNewPointDestroy;
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
+
+    this.#onNewPointDestroy = () => {
+    this.#handleNewPointFormClose();
+    this.#renderNoPoints(); 
+  };
   }
 
   closeNewPointForm() {
@@ -115,7 +121,7 @@ export default class TripPresenter {
       onDestroy: () => {
         this.#onNewPointDestroy();
         this.#newPointPresenter = null;
-        // this.#renderTrip();
+        this.#renderNoPoints();
       },
       offers: this.#offerModel.offers,
       destinations: this.#destinationModel.destinations,
@@ -257,6 +263,7 @@ export default class TripPresenter {
 
   #renderPoints(points) {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
+    this.#pointPresenters.clear();
     points.forEach((point) => this.#renderPoint(point));
   }
 
@@ -269,10 +276,23 @@ export default class TripPresenter {
   }
 
   #renderNoPoints() {
-    this.#noPointComponent = new ListEmptyView({
-      filterType: this.#filterType,
-    });
-    render(this.#noPointComponent, this.#listEventsContainer);
+    const points = this.points;
+    const pointCount = points.length;
+
+    if (pointCount > 0 || this.#newPointPresenter) {
+      if (this.#noPointComponent) {
+        remove(this.#noPointComponent);
+        this.#noPointComponent = null;
+      }
+      return;
+    }
+
+    if (!this.#noPointComponent) {
+      this.#noPointComponent = new ListEmptyView({
+        filterType: this.#filterType,
+      });
+      render(this.#noPointComponent, this.#listEventsContainer);
+    }
   }
 
   #renderLoadMoreButton() { 
@@ -316,30 +336,29 @@ export default class TripPresenter {
     }
   }
 
-  #renderTrip() {
+  #renderTrip() {    
     if (this.#isLoading) {
       this.#renderLoading();
       return;
     }
     this.#renderSort();
-    
+
+    this.#renderNoPoints();
 
     const points = this.points;
     const pointCount = points.length;
 
-    if (pointCount === 0 && !this.#newPointPresenter) {
-      this.#renderNoPoints();
-      return;
-    }
+    if (pointCount > 0 || this.#newPointPresenter) {
+      render(this.#listEventComponent, this.#listEventsContainer);
 
-    render(this.#listEventComponent, this.#listEventsContainer);
+      this.#renderPoints(
+        points.slice(0, Math.min(pointCount, this.#renderedPointCount))
+        // points
+      );
 
-    this.#renderPoints(
-      points.slice(0, Math.min(pointCount, this.#renderedPointCount))
-    );
-
-    if (pointCount > this.#renderedPointCount) {
-      this.#renderLoadMoreButton();
+      if (pointCount > this.#renderedPointCount) {
+        this.#renderLoadMoreButton();
+      }
     }
   }
 

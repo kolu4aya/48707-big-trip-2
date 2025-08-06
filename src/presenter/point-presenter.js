@@ -59,7 +59,7 @@ export default class PointPresenter {
       point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
-      onCancelClick: this.#escKeyDownHandler,
+      onCancelClick: this.#handleFormRollupClick,
       offers: this.#offers,
       destinations: this.#destinations,
     });
@@ -144,10 +144,10 @@ export default class PointPresenter {
 
   #replaceFormToCard() {
     if (this.#pointEditComponent) {
-      replace(this.#pointComponent, this.#pointEditComponent);
-      document.removeEventListener('keydown', this.#escKeyDownHandler);
+    replace(this.#pointComponent, this.#pointEditComponent);
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
 
-      this.#mode = Mode.DEFAULT;
+    this.#mode = Mode.DEFAULT;
     }
   }
 
@@ -164,11 +164,17 @@ export default class PointPresenter {
   };
 
   #escKeyDownHandler = (evt) => {
-    if (evt.key === 'Escape' || evt.target.className === 'event__rollup-btn') {
+    if (evt.key === 'Escape') {
       evt.preventDefault();
       this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToCard();
     }
+  };
+
+  #handleFormRollupClick = (evt) => {
+    evt.preventDefault();
+    this.#pointEditComponent.reset(this.#point);
+    this.#replaceFormToCard();
   };
 
   #handleFavoriteClick = () => {

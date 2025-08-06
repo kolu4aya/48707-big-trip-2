@@ -66,19 +66,10 @@ export default class PointModel extends Observable {
 
   async addPoint(updateType, update) {
     try {
-      console.log(!(/[0-9]+/gy.test(update.cost)) , Number(update.cost) < 0, Number(update.cost) > 100000)
-      if (!(/\d{1,5}/gy.test(update.cost)) || Number(update.cost) < 0 || Number(update.cost) > 100000) {
-        console.log(update.cost)
-        throw new Error("Incorrect price");
-      } else {
-        console.log(update.cost)
-        update.cost = Number(update.cost);
-      }
-      console.log(update.cost)
       const response = await this.#pointApiService.addPoint(update);
       let newPoint = this.#adaptToClient(response);
-      const destinations = await this.#destinationModel.destinations;
-      const offers = await this.#offerModel.offers;
+      const destinations = this.#destinationModel.destinations;
+      const offers = this.#offerModel.offers;
       newPoint = this.#adaprToClientOffersAndDestination(
         newPoint,
         offers,

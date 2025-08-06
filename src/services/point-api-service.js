@@ -54,11 +54,10 @@ export default class PointApiService extends ApiService {
         point.timeStart instanceof Date ? point.timeStart.toISOString() : null, // На сервере дата хранится в ISO формате
       'date_to':
         point.timeEnd instanceof Date ? point.timeEnd.toISOString() : null, // На сервере дата хранится в ISO формате
-      'base_price': point.cost,
+      'base_price': Number(point.cost),
       'is_favorite': point.favorite,
       'offers': point.offers ? point.offers.map((offer) => offer.id) : [],
       'destination': point.destination.id,
-      'base_price': Number(point.cost),
     };
 
     delete adaptedPoint.timeStart;
