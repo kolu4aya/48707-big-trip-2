@@ -58,6 +58,7 @@ export default class PointApiService extends ApiService {
       'is_favorite': point.favorite,
       'offers': point.offers ? point.offers.map((offer) => offer.id) : [],
       'destination': point.destination.id,
+
     };
 
     delete adaptedPoint.timeStart;

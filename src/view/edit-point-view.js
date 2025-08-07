@@ -1,5 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
-import { TYPE_OF_ROUTE } from '../const';
+import { TYPE_OF_ROUTES } from '../const';
 import { humanizePointDate } from '../utils/point';
 import flatpickr from 'flatpickr';
 
@@ -30,7 +30,7 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
     isNew,
   } = data;
 
-  const createTypes = (items = TYPE_OF_ROUTE) =>
+  const createTypes = (items = TYPE_OF_ROUTES) =>
     items
       .map((item) => {
         const typeLow = item.toLowerCase();
@@ -66,18 +66,18 @@ const createEditPointTemplate = (data, allOffers, destinations) => {
   };
 
   const createImages = (destinationForPhoto) => {
-    let str = '';
+    let imagesblock = '';
     if (
       destinationForPhoto.pictures !== undefined &&
       destinationForPhoto.pictures?.length > 0
     ) {
       const { pictures = [] } = destinationForPhoto;
-      str = '<div class="event__photos-container"><div class="event__photos-tape">';
-      str += pictures.map((item) => `<img class='event__photo' src='${item.src}' alt='${item.alt}'>`);
-      str += '</div></div>';
+      imagesblock = '<div class="event__photos-container"><div class="event__photos-tape">';
+      imagesblock += pictures.map((item) => `<img class='event__photo' src='${item.src}' alt='${item.alt}'>`);
+      imagesblock += '</div></div>';
     }
 
-    return str;
+    return imagesblock;
   };
 
   const dateStart = humanizePointDate(timeStart, 'DD/MM/YY HH:mm');
@@ -225,8 +225,8 @@ export default class EditPointView extends AbstractStatefulView {
       .querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChangeHandler);
     this.element
-      .querySelector(`.event__input--price`)
-      .addEventListener(`input`, this.#costChangeHandler);
+      .querySelector('.event__input--price')
+      .addEventListener('input', this.#costChangeHandler);
     this.element
       .querySelectorAll('.event__offer-checkbox')
       .forEach((offer) =>
@@ -247,8 +247,8 @@ export default class EditPointView extends AbstractStatefulView {
 
   #costChangeHandler = (evt) => {
     this._setState({
-      'cost': evt.target.value,
-    })
+      cost: evt.target.value,
+    });
   };
 
   #typeChangeHandler = (evt) => {

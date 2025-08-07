@@ -1,7 +1,7 @@
 import { render, RenderPosition, remove } from '../framework/render.js';
 import ListSortView from '../view/list-sort-view';
-import ListEventView from '../view/list-event-view';
-import ListEmptyView from '../view/list-empty';
+import ListEventView from '../view/list-view.js';
+import ListEmptyView from '../view/list-empty-view.js';
 import FailedLoadDataView from '../view/failed-load-data-view';
 import LoadMoreButtonView from '../view/load-more-button-view';
 import PointPresenter from './point-presenter';
@@ -70,9 +70,9 @@ export default class TripPresenter {
     this.#filterModel.addObserver(this.#handleModelEvent);
 
     this.#onNewPointDestroy = () => {
-    this.#handleNewPointFormClose();
-    this.#renderNoPoints(); 
-  };
+      this.#handleNewPointFormClose();
+      this.#renderNoPoints();
+    };
   }
 
   closeNewPointForm() {
@@ -251,9 +251,9 @@ export default class TripPresenter {
 
   #renderSort() {
     if (this.#listSortComponent) {
-       remove(this.#listSortComponent);
+      remove(this.#listSortComponent);
     }
-   
+
     this.#listSortComponent = new ListSortView({
       currentSortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange,
@@ -269,7 +269,7 @@ export default class TripPresenter {
 
   #renderLoading() {
     if (this.#loadingComponent) {
-       remove(this.#loadingComponent);
+      remove(this.#loadingComponent);
     }
 
     render(this.#loadingComponent, this.#listEventsContainer);
@@ -295,9 +295,9 @@ export default class TripPresenter {
     }
   }
 
-  #renderLoadMoreButton() { 
+  #renderLoadMoreButton() {
     if (this.#loadMoreButtonComponent) {
-      remove(this.#loadMoreButtonComponent)
+      remove(this.#loadMoreButtonComponent);
     }
 
     this.#loadMoreButtonComponent = new LoadMoreButtonView({
@@ -336,7 +336,7 @@ export default class TripPresenter {
     }
   }
 
-  #renderTrip() {    
+  #renderTrip() {
     if (this.#isLoading) {
       this.#renderLoading();
       return;

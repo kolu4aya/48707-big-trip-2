@@ -19,21 +19,22 @@ function createTaskTemplate(point) {
   const date = humanizePointDate(timeStart, 'MMM DD');
   const dateAtr = humanizePointDate(timeStart, 'YYYY-MM-DD');
   const dateTimeStart = humanizePointDate(timeStart, 'YYYY-MM-DDTHH:mm');
-  const TimeStart = humanizePointDate(timeStart, 'HH:mm');
+  const timeStartHumanize = humanizePointDate(timeStart, 'HH:mm');
   const dateTimeEnd = humanizePointDate(timeEnd, 'YYYY-MM-DDTHH:mm');
-  const TimeEnd = humanizePointDate(timeEnd, 'HH:mm');
-  let duration =
+  const timeEndHumanize = humanizePointDate(timeEnd, 'HH:mm');
+  const duration =
     Math.floor(timeEnd.getTime() / 1000) -
     Math.floor(timeStart.getTime() / 1000);
   const d = Math.floor(duration / (60 ** 2 * 24));
   const h = Math.floor((duration - d * 60 ** 2 * 24) / 60 ** 2);
   const m = Math.floor((duration - d * 60 ** 2 * 24 - h * 60 ** 2) / 60);
+  let labelDuration = '';
   if (d > 0) {
-    duration = `${d < 10 ? `0${d}` : d}D ${h < 10 ? `0${h}` : h}H ${m < 10 ? `0${m}` : m}M`;
+    labelDuration = `${d < 10 ? `0${d}` : d}D ${h < 10 ? `0${h}` : h}H ${m < 10 ? `0${m}` : m}M`;
   } else if (h > 0) {
-    duration = `${h < 10 ? `0${h}` : h}H ${m < 10 ? `0${m}` : m}M`;
+    labelDuration = `${h < 10 ? `0${h}` : h}H ${m < 10 ? `0${m}` : m}M`;
   } else {
-    duration = `${m < 10 ? `0${m}` : m}M`;
+    labelDuration = `${m < 10 ? `0${m}` : m}M`;
   }
 
   const favoriteClassName = favorite ? 'event__favorite-btn--active' : '';
@@ -46,11 +47,11 @@ function createTaskTemplate(point) {
             <h3 class='event__title'>${type} ${destination ? destination.name : 'Empty destination'}</h3>
             <div class='event__schedule'>
               <p class='event__time'>
-                <time class='event__start-time' datetime='${dateTimeStart}'>${TimeStart}</time>
+                <time class='event__start-time' datetime='${dateTimeStart}'>${timeStartHumanize}</time>
                 &mdash;
-                <time class='event__end-time' datetime='${dateTimeEnd}'>${TimeEnd}</time>
+                <time class='event__end-time' datetime='${dateTimeEnd}'>${timeEndHumanize}</time>
               </p>
-              <p class='event__duration'>${duration}</p>
+              <p class='event__duration'>${labelDuration}</p>
             </div>
             <p class='event__price'>
               &euro;&nbsp;<span class='event__price-value'>${cost}</span>
@@ -71,7 +72,7 @@ function createTaskTemplate(point) {
           </div></li>`;
 }
 
-export default class TaskView extends AbstractView {
+export default class EventView extends AbstractView {
   #point = null;
   #handleEditClick = null;
   #handleFavoriteClick = null;

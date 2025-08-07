@@ -1,4 +1,4 @@
-export const TYPE_OF_ROUTE = [
+export const TYPE_OF_ROUTES = [
   'Taxi',
   'Bus',
   'Train',

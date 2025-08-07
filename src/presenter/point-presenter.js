@@ -144,10 +144,10 @@ export default class PointPresenter {
 
   #replaceFormToCard() {
     if (this.#pointEditComponent) {
-    replace(this.#pointComponent, this.#pointEditComponent);
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
+      replace(this.#pointComponent, this.#pointEditComponent);
+      document.removeEventListener('keydown', this.#escKeyDownHandler);
 
-    this.#mode = Mode.DEFAULT;
+      this.#mode = Mode.DEFAULT;
     }
   }
 
@@ -180,16 +180,7 @@ export default class PointPresenter {
   #handleFavoriteClick = () => {
     this.#handleDataChange(UserAction.UPDATE_POINT, UpdateType.MINOR, {
       ...this.#point,
-      isFavorite: !this.#point.isFavorite,
+      favorite: !this.#point.favorite,
     });
   };
-
-   setComplete() {
-    if (this.#pointEditComponent) {
-      this.#pointEditComponent.updateElement({
-        isDisabled: false,
-        isSaving: false,
-      });
-    }
-  }
 }
