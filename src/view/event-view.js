@@ -22,12 +22,17 @@ function createTaskTemplate(point) {
   const timeStartHumanize = humanizePointDate(timeStart, 'HH:mm');
   const dateTimeEnd = humanizePointDate(timeEnd, 'YYYY-MM-DDTHH:mm');
   const timeEndHumanize = humanizePointDate(timeEnd, 'HH:mm');
+  const millisecondsInSecond = 1000;
   const duration =
-    Math.floor(timeEnd.getTime() / 1000) -
-    Math.floor(timeStart.getTime() / 1000);
-  const d = Math.floor(duration / (60 ** 2 * 24));
-  const h = Math.floor((duration - d * 60 ** 2 * 24) / 60 ** 2);
-  const m = Math.floor((duration - d * 60 ** 2 * 24 - h * 60 ** 2) / 60);
+    Math.floor(timeEnd.getTime() / millisecondsInSecond) -
+    Math.floor(timeStart.getTime() / millisecondsInSecond);
+  const secondsInMinute = 60;
+  const secondsInHour = secondsInMinute ** 2;
+  const hoursInDay = 24;
+  const secondsInDay = secondsInHour * hoursInDay;
+  const d = Math.floor(duration / secondsInDay);
+  const h = Math.floor((duration - d * secondsInDay) / secondsInHour);
+  const m = Math.floor((duration - d * secondsInDay - h * secondsInHour) / secondsInMinute);
   let labelDuration = '';
   if (d > 0) {
     labelDuration = `${d < 10 ? `0${d}` : d}D ${h < 10 ? `0${h}` : h}H ${m < 10 ? `0${m}` : m}M`;
